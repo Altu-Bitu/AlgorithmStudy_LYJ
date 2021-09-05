@@ -18,38 +18,17 @@ using namespace std;
 
 vector<int> A;
 vector<int> B;
-vector<pair<int, int>> AB;
 
-
-void solution(int N) {
-
-    sort(A.begin(), A.end()); // 오름차순
-    sort(B.begin(), B.end(), greater<>()); // 내림차순
-
-    for (int i = 0; i < N; i++) {
-
-        int b = B[i];
-        for (int j = 0; j < N; j++) {
-            if (AB[j].first == b) {
-                AB[j].second = A[i];
-                break;
-            }
-        }
-
-    }
-
-
-}
 
 int main() {
+
     int N;
-    int b;
 
     cin >> N;
 
     A.assign(N, 0);
     B.assign(N, 0);
-//    AB.assign(N, {0, 0});
+
 
     for (int i = 0; i < N; i++) {
         cin >> A[i];
@@ -58,17 +37,15 @@ int main() {
         cin >> B[i];
     }
 
+    sort(A.begin(), A.end());
+    sort(B.begin(), B.end(), greater<>());
 
-    solution(N);
-    int S = 0;
-//    for (int i = 0; i < N; i++) {
-//        cout << "AB : " << AB[i].first << " " << AB[i].second << "\n";
-//    }
-
+    int sum = 0;
     for (int i = 0; i < N; i++) {
-        S += AB[i].first * AB[i].second;
+        sum += A[i] * B[i];
     }
 
-    cout << S;
-
+    cout << sum;
 }
+
+
