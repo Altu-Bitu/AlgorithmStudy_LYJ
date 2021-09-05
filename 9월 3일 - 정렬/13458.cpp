@@ -16,25 +16,23 @@
 
 using namespace std;
 
-vector<int> stuNum;
-vector<int> inspNum;
+vector<long long> stuNum;
+vector<long long> inspNum;
 
-void calInsNum(int N, int B, int C) {
-    double num;
+void calInsNum(int N, long long B, long long C) {
+    long long num;
 
     for (int i = 0; i < N; i++) {
-        num = (double) (stuNum[i] - B);
-        if (num < 0) num = 0; //한 반의 학생 수 보다 (총)감독관이 볼 수 있는 학생 수가 더 많을 때 
-//        cout << "num : " << num << "\n";
-        inspNum[i] = ceil((double) num / (double) C);
-//        cout << "insp" << inspNum[i] << "\n";
+        num = stuNum[i] - B;
+        if (num < 0) num = 0; //한 반의 학생 수 보다 (총)감독관이 볼 수 있는 학생 수가 더 많을 때
+        inspNum[i] = ceil((long double) num / (long double) C);
     }
 
 
 }
 
-int addInsNum(int N) {
-    int sum = 0;
+long long addInsNum(int N) {
+    long long sum = 0;
     for (int i = 0; i < N; i++) {
         sum += inspNum[i];
     }
@@ -43,7 +41,8 @@ int addInsNum(int N) {
 
 int main() {
 
-    int N, B, C;
+    int N;
+    long long B, C;
     cin >> N;
     stuNum.assign(N, 0);
     inspNum.assign(N, 0);
