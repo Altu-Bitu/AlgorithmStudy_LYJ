@@ -29,29 +29,13 @@ int countChar(int N, int ans) {
 
     for (int i = 0; i < N; i++) {
         string str = arr[i];
-//        cout << "=========[" << i << "]===========" << str << "\n";
         for (int j = 0; j < str.length(); j++) {
             curr = str[j];
-//            cout << "j : " << j << "[curr :" << curr << "] [past : " << past << "]" << "\n";
             if (curr != past) {
-
-//                cout << "같지않음" << "\n";
-//                cout << "wordList : ";
-
-//                if (!wordList.empty()) {
-//                    for (int k = 0; k < str.length(); k++) {
-//                        cout << wordList[k];
-//                    }
-//                }
-
-//                cout << "\n";
-
                 auto it = find(wordList.begin(), wordList.end(), curr);
                 if (it == wordList.end()) {
-//                    cout << "존재 안함" << "\n";
                     wordList.push_back(curr);
                 } else {
-//                    cout << "이미 존재함 " << "\n";
                     ans--;
                     wordList.clear();
                     past = '\0';

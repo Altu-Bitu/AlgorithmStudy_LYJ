@@ -27,18 +27,6 @@ struct info {
     int len, sum;
 };
 
-//int calDigit(string str, int size) {
-//
-//    char c;
-//    int sum = 0;
-//    for (int i = 0; i < size; i++) {
-//        c = str.at(i);
-//        if (isdigit(c)) sum += (int) (c - '0');
-//    }
-//
-//    return sum;
-//
-//}
 
 void setStr(info &in) {
 
@@ -53,7 +41,7 @@ void setStr(info &in) {
         }
     }
     in.sum = sum;
-//
+
 //    cout << "str2 : " << in.str2;
 //    cout << "sum : " << in.sum;
 
