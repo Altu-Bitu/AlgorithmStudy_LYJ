@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/macos,clion+all,c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,clion+all,c++
 
@@ -161,5 +160,3 @@ Temporary Items
 
 # etc
 *.txt
-
-# End of https://www.toptal.com/developers/gitignore/api/macos,clion+all,c++
