@@ -16,13 +16,13 @@ using namespace std;
 
 vector<pair<int, int>> p;
 
-bool compare(pair<int, int> a, pair<int, int> b) {
+bool compare(const pair<int, int> &a, const pair<int, int> &b) {
 
     if (a.second == b.second)
         return a.first < b.first;
-    else {
-        return a.second < b.second;
-    }
+
+    return a.second < b.second;
+
 }
 
 int main() {

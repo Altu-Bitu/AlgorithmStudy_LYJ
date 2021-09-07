@@ -20,65 +20,110 @@
 using namespace std;
 
 
+vector<pair<string, int>> arr;
 
-
-struct info {
-    string str;
-    int len, sum;
-};
-
-
-void setStr(info &in) {
-
+int calSum(string str) {
 
     char c;
-
     int sum = 0;
-    for (int i = 0; i < in.len; i++) {
-        c = in.str.at(i);
+
+    for (int i = 0; i < str.length(); i++) {
+        c = str.at(i);
         if (isdigit(c)) {
             sum += (int) (c - '0');
         }
     }
-    in.sum = sum;
 
-//    cout << "str2 : " << in.str2;
-//    cout << "sum : " << in.sum;
-
+    return sum;
 
 }
 
-bool compare(const info &i1, const info &i2) {
+bool compare(const pair<string, int> &a, const pair<string, int> &b) {
 
-    if (i1.len != i2.len)
-        return i1.len < i2.len;
-    if (i1.sum != i2.sum)
-        return i1.sum < i2.sum;
-    return i1.str < i2.str;
+    if (a.second != b.second)
+        return a.second < b.second;
+    if (calSum(a.first) != calSum(b.first))
+        return calSum(a.first) < calSum(b.first);
+    return a.first < b.first;
 
 }
 
 
 int main() {
-
     int N;
-    string str = "";
-    vector<info> arr;
+    string str;
     cin >> N;
-
     arr.assign(N, {});
 
     for (int i = 0; i < N; i++) {
         cin >> str;
-        arr[i].str = str;
-        arr[i].len = str.length();
-        setStr(arr[i]);
+        arr[i].first = str;
+        arr[i].second = str.length();
     }
 
     sort(arr.begin(), arr.end(), compare);
 
     for (int i = 0; i < N; i++) {
-        cout << arr[i].str << "\n";
+        cout << arr[i].first << "\n";
 
     }
+
 }
+
+//struct info {
+//    string str;
+//    int len, sum;
+//};
+//
+//
+//void setStr(info &in) {
+//
+//
+//    char c;
+//
+//    int sum = 0;
+//    for (int i = 0; i < in.len; i++) {
+//        c = in.str.at(i);
+//        if (isdigit(c)) {
+//            sum += (int) (c - '0');
+//        }
+//    }
+//    in.sum = sum;
+//
+//
+//}
+//
+//bool compare(const info &i1, const info &i2) {
+//
+//    if (i1.len != i2.len)
+//        return i1.len < i2.len;
+//    if (i1.sum != i2.sum)
+//        return i1.sum < i2.sum;
+//    return i1.str < i2.str;
+//
+//}
+//
+//
+//int main() {
+//
+//    int N;
+//    string str = "";
+//    vector<info> arr;
+//    cin >> N;
+//
+//    arr.assign(N, {});
+//
+//    for (int i = 0; i < N; i++) {
+//        cin >> str;
+//        arr[i].str = str;
+//        arr[i].len = str.length();
+//        setStr(arr[i]);
+//    }
+//
+//    sort(arr.begin(), arr.end(), compare);
+//
+//    for (int i = 0; i < N; i++) {
+//        cout << arr[i].str << "\n";
+//
+//    }
+//}
