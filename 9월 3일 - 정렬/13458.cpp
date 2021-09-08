@@ -33,13 +33,6 @@ long long calInsNum(int N, long long B, long long C) {
 
 }
 
-//long long addInsNum(int N) {
-//    long long sum = 0;
-//    for (int i = 0; i < N; i++) {
-//        sum += inspNum[i];
-//    }
-//    return sum + N;
-//}
 
 int main() {
 
@@ -47,15 +40,13 @@ int main() {
     long long B, C;
     cin >> N;
     stuNum.assign(N, 0);
-//    inspNum.assign(N, 0);
 
     for (int i = 0; i < N; i++) {
         cin >> stuNum[i];
     }
 
     cin >> B >> C;
-
     cout << calInsNum(N, B, C);
-//    cout << addInsNum(N);
+
 
 }

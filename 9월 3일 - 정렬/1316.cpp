@@ -58,9 +58,6 @@ int main() {
     arr.assign(N, {});
 
     string str;
-//    int abc = 'a';
-
-//    cout << abc;
 
     for (int i = 0; i < N; i++) {
         cin >> str;
