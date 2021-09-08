@@ -20,55 +20,111 @@
 using namespace std;
 
 vector<string> arr;
-vector<char> wordList;
 
-int countChar(int N, int ans) {
 
-    char past = '\0';
-    char curr;
+bool isGroup(string str) {
 
-    for (int i = 0; i < N; i++) {
-        string str = arr[i];
-        for (int j = 0; j < str.length(); j++) {
-            curr = str[j];
-            if (curr != past) {
-                auto it = find(wordList.begin(), wordList.end(), curr);
-                if (it == wordList.end()) {
-                    wordList.push_back(curr);
-                } else {
-                    ans--;
-                    wordList.clear();
-                    past = '\0';
-                    break;
-                }
-            }
-            past = curr;
+    vector<int> check;
+    check.assign(26, 0);
+
+    int past = 0;
+    int c;
+
+    for (int i = 0; i < str.length(); i++) {
+        c = str.at(i);
+
+        if (past != c) {
+            if (check[c - 97] != 0)
+                return false;
+            check[c - 97] = 1;
         }
-        past = '\0';
-        wordList.clear();
+
+        past = c;
 
     }
-    return ans;
-
+    return true;
 
 }
 
-
 int main() {
+
+    //ASCII code
+    //a=97, b=98 ....
 
     int N;
     cin >> N;
-
     int ans = N;
 
+    arr.assign(N, {});
+
     string str;
-    arr.assign(N, "");
+//    int abc = 'a';
+
+//    cout << abc;
 
     for (int i = 0; i < N; i++) {
         cin >> str;
         arr[i] = str;
     }
 
-    cout << countChar(N, ans);
+    for (int j = 0; j < N; j++) {
+        if (isGroup(arr[j]) == false)
+            ans--;
+    }
+
+    cout << ans;
 
 }
+
+//vector<string> arr;
+//vector<char> wordList;
+//
+//int countChar(int N, int ans) {
+//
+//    char past = '\0';
+//    char curr;
+//
+//    for (int i = 0; i < N; i++) {
+//        string str = arr[i];
+//        for (int j = 0; j < str.length(); j++) {
+//            curr = str[j];
+//            if (curr != past) {
+//                auto it = find(wordList.begin(), wordList.end(), curr);
+//                if (it == wordList.end()) {
+//                    wordList.push_back(curr);
+//                } else {
+//                    ans--;
+//                    wordList.clear();
+//                    past = '\0';
+//                    break;
+//                }
+//            }
+//            past = curr;
+//        }
+//        past = '\0';
+//        wordList.clear();
+//
+//    }
+//    return ans;
+//
+//}
+//
+//
+//int main() {
+//
+//    int N;
+//    cin >> N;
+//
+//    int ans = N;
+//
+//    string str;
+//    arr.assign(N, "");
+//
+//    for (int i = 0; i < N; i++) {
+//        cin >> str;
+//        arr[i] = str;
+//    }
+//
+//    cout << countChar(N, ans);
+//
+//}
