@@ -20,7 +20,7 @@
 using namespace std;
 
 
-vector<pair<string, int>> arr;
+vector<string> arr;
 
 int calSum(string str) {
 
@@ -38,38 +38,73 @@ int calSum(string str) {
 
 }
 
-bool compare(const pair<string, int> &a, const pair<string, int> &b) {
+bool compare(const string &a, const string &b) {
 
-    if (a.second != b.second)
-        return a.second < b.second;
-    if (calSum(a.first) != calSum(b.first))
-        return calSum(a.first) < calSum(b.first);
-    return a.first < b.first;
+    if (a.length() != b.length())
+        return a.length() < b.length();
+    if (calSum(a) != calSum(b))
+        return calSum(a) < calSum(b);
+    return a < b;
 
 }
 
-
 int main() {
+
     int N;
-    string str;
     cin >> N;
-    arr.assign(N, {});
+    arr.assign(N, "");
 
     for (int i = 0; i < N; i++) {
-        cin >> str;
-        arr[i].first = str;
-        arr[i].second = str.length();
+        cin >> arr[i];
     }
 
     sort(arr.begin(), arr.end(), compare);
 
     for (int i = 0; i < N; i++) {
-        cout << arr[i].first << "\n";
+        cout << arr[i] << "\n";
 
     }
 
+
 }
 
+// pair로 length를 저장 -> 불필요한 메모리 사용
+// vector<pair<string, int>> arr;
+//bool compare(const pair<string, int> &a, const pair<string, int> &b) {
+//
+//    if (a.second != b.second)
+//        return a.second < b.second;
+//    if (calSum(a.first) != calSum(b.first))
+//        return calSum(a.first) < calSum(b.first);
+//    return a.first < b.first;
+//
+//}
+//
+//
+//int main() {
+//    int N;
+//    string str;
+//    cin >> N;
+//    arr.assign(N, {});
+//
+//    for (int i = 0; i < N; i++) {
+//        cin >> str;
+//        arr[i].first = str;
+//        arr[i].second = str.length();
+//    }
+//
+//    sort(arr.begin(), arr.end(), compare);
+//
+//    for (int i = 0; i < N; i++) {
+//        cout << arr[i].first << "\n";
+//
+//    }
+//
+//}
+
+
+
+// 구조체 사용 -> 굳이 필요없는 메모리 사용!
 //struct info {
 //    string str;
 //    int len, sum;
