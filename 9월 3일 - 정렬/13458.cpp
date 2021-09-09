@@ -19,17 +19,13 @@ using namespace std;
 vector<long long> stuNum;
 //vector<long long> inspNum;
 
-long long calInsNum(int N, long long B, long long C) {
+long long calInsNum(int stuNum, long long B, long long C) {
     long long num;
-    long long sum = 0;
 
-    for (int i = 0; i < N; i++) {
-        num = stuNum[i] - B;
-        if (num < 0) num = 0; //한 반의 학생 수 보다 (총)감독관이 볼 수 있는 학생 수가 더 많을 때
-        sum += ceil((long double) num / (long double) C);
-    }
+    num = stuNum - B;
+    if (num < 0) num = 0; //한 반의 학생 수 보다 (총)감독관이 볼 수 있는 학생 수가 더 많을 때
+    return ceil((long double) num / (long double) C);
 
-    return sum + N;
 
 }
 
@@ -46,7 +42,13 @@ int main() {
     }
 
     cin >> B >> C;
-    cout << calInsNum(N, B, C);
+
+    long long sum = N;
+    for (int i = 0; i < N; i++) {
+        sum += calInsNum(stuNum[i], B, C); // 함수로 바꿀 때 그 안에서 for문 x  -> main에서 돌고 함수에서는 하나만 처리하도록
+    }
+
+    cout << sum;
 
 
 }
