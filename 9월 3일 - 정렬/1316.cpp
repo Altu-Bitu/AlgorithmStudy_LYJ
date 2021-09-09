@@ -24,8 +24,8 @@ vector<string> arr;
 
 bool isGroup(string str) {
 
-    vector<int> check;
-    check.assign(26, 0);
+    vector<bool> check;
+    check.assign(26, false);
 
     int past = 0;
     int c;
@@ -34,9 +34,9 @@ bool isGroup(string str) {
         c = str.at(i);
 
         if (past != c) {
-            if (check[c - 97] != 0)
+            if (check[c - 'a'] != false)
                 return false;
-            check[c - 97] = 1;
+            check[c - 'a'] = true;
         }
 
         past = c;
