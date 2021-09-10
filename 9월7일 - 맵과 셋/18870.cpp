@@ -22,6 +22,9 @@ vector<int> ans;
 
 int main() {
 
+    cin.tie(NULL); //cin , cout의 묶음을 풀어줌
+    ios_base::sync_with_stdio(false); //c, c++버퍼를 분리
+
     int N, num;
     cin >> N;
     ans.assign(N, 0);
