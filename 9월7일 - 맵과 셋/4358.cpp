@@ -30,12 +30,19 @@ int main() {
 //        cnt++;
 //
 //        //존재하지 않는 경
+//        tree[name]++; //이렇게하면 자동으로 증가한다!
+//
+//        for (auto iter = tree.begin(); iter != tree.end(); iter++) {
+//            cout << iter->first << " " << iter->second << "\n";
+//        }
+//
 //        auto it = tree.find(name);
 //        if (it == tree.end())
 //            tree[name] = 1;
 //        else
 //            it->second++;
 //    }
+
 
     while (true) {
         getline(cin, name);
@@ -44,12 +51,13 @@ int main() {
 
         cnt++;
 
-
-        auto it = tree.find(name);
-        if (it == tree.end())
-            tree[name] = 1;//존재하지 않는 경우 추가
-        else
-            it->second++; //존재하는 경우 갯수증가
+        tree[name]++;
+// 아래 코드와 위 한줄이 동일하다!
+//        auto it = tree.find(name);
+//        if (it == tree.end())
+//            tree[name] = 1;//존재하지 않는 경우 추가
+//        else
+//            it->second++; //존재하는 경우 갯수증가
 
     }
 
