@@ -47,14 +47,14 @@ int main() {
             tmp = aa + bb;
 
             //carry 존재 여부 반영
-            if (flag == true) add_tmp = tmp + 1;
-            else add_tmp = tmp;
+            if (flag == true) tmp++;
+//            else add_tmp = tmp;
 
             // carry 발생 여부 확인
-            if (add_tmp >= 10) flag = true;
+            if (tmp >= 10) flag = true;
             else flag = false;
 
-            C.push_back(add_tmp % 10);
+            C.push_back(tmp % 10);
 
         }
 
@@ -62,13 +62,13 @@ int main() {
         for (int k = Blen; k < Alen; k++) {
             int tmp = A.at(k) - '0';
 
-            if (flag == true) add_tmp = tmp + 1;
-            else add_tmp = tmp;
+            if (flag == true) tmp++;
+//            else add_tmp = tmp;
 
-            if (add_tmp >= 10) flag = true;
+            if (tmp >= 10) flag = true;
             else flag = false;
 
-            C.push_back(add_tmp % 10);
+            C.push_back(tmp % 10);
 
         }
 
@@ -85,13 +85,13 @@ int main() {
             tmp = aa + bb;
 
 
-            if (flag == true) add_tmp = tmp + 1;
-            else add_tmp = tmp;
+            if (flag == true) tmp++;
+//            else add_tmp = tmp;
 
-            if (add_tmp >= 10) flag = true;
+            if (tmp >= 10) flag = true;
             else flag = false;
 
-            C.push_back(add_tmp % 10);
+            C.push_back(tmp % 10);
 
         }
 
@@ -99,13 +99,13 @@ int main() {
             int tmp = B.at(k) - '0';
 
 
-            if (flag == true) add_tmp = tmp + 1;
-            else add_tmp = tmp;
+            if (flag == true) tmp++;
+//            else add_tmp = tmp;
 
-            if (add_tmp >= 10) flag = true;
+            if (tmp >= 10) flag = true;
             else flag = false;
 
-            C.push_back(add_tmp % 10);
+            C.push_back(tmp % 10);
 
 
         }
