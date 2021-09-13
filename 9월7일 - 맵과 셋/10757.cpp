@@ -24,96 +24,65 @@ int main() {
     cin >> A >> B;
     vector<int> C;
 
+
+    int longer, shorter;
+    string long_s, short_s;
+    if (A.length() >= B.length()) {
+        longer = A.length();
+        shorter = B.length();
+        long_s = A;
+        short_s = B;
+    } else {
+        longer = B.length();
+        shorter = A.length();
+        long_s = B;
+        short_s = A;
+    }
+
     //string 특성 상 .at 을 사용하면 앞자리 부터 되어서 반전
-    reverse(A.begin(), A.end());
-    reverse(B.begin(), B.end());
+    reverse(short_s.begin(), short_s.end());
+    reverse(long_s.begin(), long_s.end());
 
 
-    int Alen, Blen;
-    Alen = A.length();
-    Blen = B.length();
-
-    int aa, bb, add_tmp, tmp;
+    int aa, bb, tmp;
     bool flag = false;
 
 
-    if (Alen >= Blen) {
+    for (int i = 0; i < shorter; i++) {
 
-        for (int i = 0; i < Blen; i++) {
+        aa = long_s.at(i) - '0'; //char into int
+        bb = short_s.at(i) - '0';
 
-            aa = A.at(i) - '0'; //char into int
-            bb = B.at(i) - '0';
+        tmp = aa + bb;
 
-            tmp = aa + bb;
-
-            //carry 존재 여부 반영
-            if (flag == true) tmp++;
+        //carry 존재 여부 반영
+        if (flag == true) tmp++;
 //            else add_tmp = tmp;
 
-            // carry 발생 여부 확인
-            if (tmp >= 10) flag = true;
-            else flag = false;
+        // carry 발생 여부 확인
+        if (tmp >= 10) flag = true;
+        else flag = false;
 
-            C.push_back(tmp % 10);
-
-        }
-
-        //남은 자리수 계산
-        for (int k = Blen; k < Alen; k++) {
-            int tmp = A.at(k) - '0';
-
-            if (flag == true) tmp++;
-//            else add_tmp = tmp;
-
-            if (tmp >= 10) flag = true;
-            else flag = false;
-
-            C.push_back(tmp % 10);
-
-        }
-
-        // 계산 후 마지막 남은 carry반영
-        if (flag == true) C.push_back(1);
-
-    } else {
-
-
-        for (int i = 0; i < Alen; i++) {
-            aa = A.at(i) - '0';
-            bb = B.at(i) - '0';
-
-            tmp = aa + bb;
-
-
-            if (flag == true) tmp++;
-//            else add_tmp = tmp;
-
-            if (tmp >= 10) flag = true;
-            else flag = false;
-
-            C.push_back(tmp % 10);
-
-        }
-
-        for (int k = Alen; k < Blen; k++) {
-            int tmp = B.at(k) - '0';
-
-
-            if (flag == true) tmp++;
-//            else add_tmp = tmp;
-
-            if (tmp >= 10) flag = true;
-            else flag = false;
-
-            C.push_back(tmp % 10);
-
-
-        }
-
-        if (flag == true) C.push_back(1);
-
+        C.push_back(tmp % 10);
 
     }
+
+    //남은 자리수 계산
+    for (int k = shorter; k < longer; k++) {
+        int tmp = long_s.at(k) - '0';
+
+        if (flag == true) tmp++;
+//            else add_tmp = tmp;
+
+        if (tmp >= 10) flag = true;
+        else flag = false;
+
+        C.push_back(tmp % 10);
+
+    }
+
+    // 계산 후 마지막 남은 carry반영
+    if (flag == true) C.push_back(1);
 
 
 
