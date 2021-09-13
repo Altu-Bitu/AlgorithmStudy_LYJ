@@ -26,13 +26,24 @@ int main() {
     string str;
     cin >> N >> M;
 
-    for (int i = 0; i < N; i++) {
+//    for (int i = 0; i < N; i++) {
+//        cin >> str;
+//        s.insert(str);
+//    }
+//    N재사용 x이므로 while로 변경
+    while (N--) {
         cin >> str;
         s.insert(str);
+
     }
 
     int cnt = 0;
-    for (int j = 0; j < M; j++) {
+//    for (int j = 0; j < M; j++) {
+//        cin >> str;
+//        if (s.find(str) != s.end()) cnt++;
+//    }
+//  M재사용 x이므로 while로 변경
+    while (M--) {
         cin >> str;
         if (s.find(str) != s.end()) cnt++;
     }
