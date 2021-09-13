@@ -17,13 +17,15 @@
 
 using namespace std;
 
-multimap<int, int> m;
-vector<int> ans;
 
 int main() {
 
     cin.tie(NULL); //cin , cout의 묶음을 풀어줌
     ios_base::sync_with_stdio(false); //c, c++버퍼를 분리
+
+    //함수에 사용되는 것이 아닐 땐 지역변수로 선언
+    multimap<int, int> m;
+    vector<int> ans;
 
     int N, num;
     cin >> N;
@@ -51,11 +53,9 @@ int main() {
         } else {
 
             if (key > bkey) {
-                key = ++min;
-            } else {
-                key = min;
+                min++;
             }
-            ans[value] = key;
+            ans[value] = min;
             bkey = (*iter).first;
         }
 
