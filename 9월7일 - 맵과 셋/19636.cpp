@@ -27,8 +27,10 @@ int main() {
     int W1 = W0, W2 = W0; // 다이어트 후 몸무게(기초 대사량 고려X, 고려O)
 
     //기초대사량의 변화를 고려하지 않은 경우
+
+    int change1 = L - (L0 + A);
     for (int i = 0; i < D; i++) {
-        W1 += L - (L0 + A);
+        W1 += change1;
 
         if (W1 <= 0) {
             danger1 = true;
@@ -41,20 +43,16 @@ int main() {
     for (int i = 0; i < D; i++) {
 
 
-        int change = L - (L1 + A);
-        W2 += change;
+        int change2 = L - (L1 + A);
+        W2 += change2;
 
 
-        if (abs(change) > T)
-            L1 += floor((double) change / 2.0); //ceil,floor연산시 double주의
+        if (abs(change2) > T)
+            L1 += floor((double) change2 / 2.0); //ceil,floor연산시 double주의
 
 
 
-        if (W2 <= 0) {
-            danger2 = true;
-            break;
-        }
-        if (L1 <= 0) {
+        if (W2 <= 0 || L1 <= 0) {
             danger2 = true;
             break;
         }
