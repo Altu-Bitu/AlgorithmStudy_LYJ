@@ -24,19 +24,24 @@ int main() {
 
     cin >> W0 >> L0 >> T >> D >> L >> A;
 
-    int W1 = W0, W2 = W0; // 다이어트 후 몸무게(기초 대사량 고려X, 고려O)
+    int W1, W2 = W0; // 다이어트 후 몸무게(기초 대사량 고려X, 고려O)
 
     //기초대사량의 변화를 고려하지 않은 경우
 
-    int change1 = L - (L0 + A);
-    for (int i = 0; i < D; i++) {
-        W1 += change1;
-
-        if (W1 <= 0) {
-            danger1 = true;
-            break;
-        }
+    W1 = W0 + D * (L - (L0 + A));
+    if (W1 <= 0) {
+        danger1 = true;
     }
+
+// 단순 계산을 굳이 D번 반복중임 , 위의 코드로 변경
+//    for (int i = 0; i < D; i++) {
+//        W1 += change1;
+//
+//        if (W1 <= 0) {
+//            danger1 = true;
+//            break;
+//        }
+//    }
 
 
     int L1 = L0; //변화하는 일일 기초 대사량
