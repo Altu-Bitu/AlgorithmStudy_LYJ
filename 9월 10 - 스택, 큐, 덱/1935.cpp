@@ -23,11 +23,6 @@ bool isOperator(char c) {
 
 double cal(double a, double b, char c) {
 
-//    int ia = v[a - 'A'];
-//    int ib = v[b - 'A'];
-
-    cout << " c " << c << "\n";
-    cout << " ia : " << a << " ib : " << b << "\n";
 
     switch (c) {
         case '+':
@@ -64,49 +59,38 @@ int main() {
     }
 
 
-//    for (int i = 0; i < str.length(); i++) {
-//
-//        char c = str[i];
-//        if (isalpha(c)) {
-//            //A - 'A' = 0
-//            int n = c - 'A';
-//            str[i] = v[n];
-//        }
-//
-//    }
-//
-//    cout << str;
-
-
-//    s.push(str[0]);
-
     int i = 0;
+    double ans;
     while (i < str.length()) {
         char c = str[i];
-        cout << "============== [ i ] : " << i << "  ===========\n";
+//        cout << "============== [ i ] : " << i << "  ===========\n";
 
         if (isOperator(c)) {
-            cout << " OPERATEOR " << "\n";
+//            cout << " OPERATEOR " << "\n";
             double a = s.top();
             s.pop();
-            cout << "pop : " << a << "\n";
+//            cout << "pop : " << a << "\n";
             double b = s.top();
             s.pop();
-            cout << "pop : " << b << "\n";
+//            cout << "pop : " << b << "\n";
 
-            double zz = cal(a, b, c);
-            cout << "cal : " << zz << "\n";
-            s.push(zz);
+            ans = cal(a, b, c);
+//            cout << "cal : " << ans << "\n";
+            s.push(ans);
 
         } else {
-            cout << " NUMBER " << "\n";
+//            cout << " NUMBER " << "\n";
             double input = v[c - 'A'];
             s.push(input);
-            cout << "push : " << c << "\n";
+//            cout << "push : " << c << "\n";
         }
         i++;
 
 
     }
+    cout << fixed;
+    cout.precision(2);
+    cout << ans;
+
 
 }
