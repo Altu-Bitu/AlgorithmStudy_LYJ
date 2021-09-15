@@ -10,63 +10,91 @@
  */
 
 
-// **********************
-//아직 다 못풀어서 리뷰안해주셔도 됩니당 ㅠ
-// **********************
-
-
-
 #include <iostream>
 #include <map>
-#include <vector>
 
 using namespace std;
 
-
-vector<long long> v;
-
-
+/**
+ * 같은 종류의 옷이 각각 몇 벌 있는지만 알면 됨
+ */
 int main() {
+    int t, n;
+    string outfit, kind;
 
-    int M;
-    cin >> M;
-    string c, cloth;
+    cin >> t;
+    while (t--) {
+        map<string, int> m;
 
-    while (M--) {
-        if (M < 0)break;
-
-        int N;
-        cin >> N;
-        map<string, long long> closet;
-        if (N == 0) v.push_back(0);
-        else {
-            for (int i = 0; i < N; i++) {
-                cin >> c >> cloth;
-
-
-                auto it = closet.find(cloth);
-                if (it == closet.end())
-                    closet[cloth] = 1;//존재하지 않는 경우 추가
-                else
-                    it->second++; //존재하는 경우 갯수증가
-            }
-
-            long long n = 1;
-            for (auto it = closet.begin(); it != closet.end(); it++) {
-                n *= it->second;
-            }
-
-            if (closet.size() == 1) v.push_back(N);
-            else v.push_back(n + N);
+        //입력
+        cin >> n;
+        while (n--) {
+            cin >> outfit >> kind;
+            m[kind]++;
         }
-        closet.clear();
 
+        //연산
+        int result = 1;
+        for (auto iter = m.begin(); iter != m.end(); iter++)
+            result *= (iter->second + 1); //해당 종류의 옷을 입기(iter->second:해당옷의 수 ) + 안 입기(1)
 
+        //출력
+        //알몸인 경우 제외수(모든 종류의 옷을 하나도 입지않음 경우)
+        cout << result - 1 << '\n';
     }
-
-    for (int i = 0; i < v.size(); i++) {
-        cout << v[i] << "\n";
-    }
+}
+//
+//#include <iostream>
+//#include <map>
+//#include <vector>
+//
+//using namespace std;
+//
+//
+//vector<long long> v;
+//
+//
+//int main() {
+//
+//    int M;
+//    cin >> M;
+//    string c, cloth;
+//
+//    while (M--) {
+//        if (M < 0)break;
+//
+//        int N;
+//        cin >> N;
+//        map<string, long long> closet;
+//        if (N == 0) v.push_back(0);
+//        else {
+//            for (int i = 0; i < N; i++) {
+//                cin >> c >> cloth;
+//
+//
+//                auto it = closet.find(cloth);
+//                if (it == closet.end())
+//                    closet[cloth] = 1;//존재하지 않는 경우 추가
+//                else
+//                    it->second++; //존재하는 경우 갯수증가
+//            }
+//
+//            long long n = 1;
+//            for (auto it = closet.begin(); it != closet.end(); it++) {
+//                n *= it->second;
+//            }
+//
+//            if (closet.size() == 1) v.push_back(N);
+//            else v.push_back(n + N);
+//        }
+//        closet.clear();
+//
+//
+//    }
+//
+//    for (int i = 0; i < v.size(); i++) {
+//        cout << v[i] << "\n";
+//    }
 
 
 
