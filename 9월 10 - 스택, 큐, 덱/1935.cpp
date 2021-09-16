@@ -13,13 +13,13 @@ stack<double> s;
 vector<int> v;
 
 
-bool isOperator(char c) {
-
-    if (c == '*' || c == '/' || c == '+' || c == '-')
-        return true;
-    return false;
-
-}
+//bool isOperator(char c) {
+//
+//    if (c == '*' || c == '/' || c == '+' || c == '-')
+//        return true;
+//    return false;
+//
+//}
 
 double cal(double a, double b, char c) {
 
@@ -46,10 +46,8 @@ int main() {
     int N, num;
     string str;
 
-    cin >> N;
-    cin.ignore();
+    cin >> N >> str;
 
-    getline(cin, str);
     v.assign(N, 0);
 //    cout << str;
 
@@ -65,7 +63,7 @@ int main() {
         char c = str[i];
 //        cout << "============== [ i ] : " << i << "  ===========\n";
 
-        if (isOperator(c)) {
+        if (!isalpha(c)) {
 //            cout << " OPERATEOR " << "\n";
             double a = s.top();
             s.pop();
