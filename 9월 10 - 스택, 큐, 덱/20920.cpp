@@ -17,7 +17,7 @@ bool compare(const pair<string, int> &a, pair<string, int> &b) {
 
     if (a.second != b.second)//언급 횟수 순
         return a.second >= b.second;//내림차순
-    else if (a.first.length() != b.first.length()) //길이 순
+    if (a.first.length() != b.first.length()) //길이 순
         return a.first.length() >= b.first.length();//내림차순
     return a.first < b.first;// 오름차순(알파벳순 )
 }
