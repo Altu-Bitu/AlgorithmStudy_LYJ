@@ -38,7 +38,7 @@ int main() {
         int flag = false;
         pq.pop();
 
-        for (int i = 0; i < v.size(); i++) {
+        for (int i = 0; i < v.size(); i++) { //여기 시간초관데
 
             if (v[i] <= start) {
                 v[i] = end;
