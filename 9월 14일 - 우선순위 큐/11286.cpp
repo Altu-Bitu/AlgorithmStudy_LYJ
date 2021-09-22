@@ -8,24 +8,40 @@
 using namespace std;
 
 
+//struct compare {
+//
+//
+//    bool operator()(pair<int, int> &a, pair<int, int> &b) {
+//
+//        if (a.first != b.first)
+//            return a.first > b.first; //오름차순
+//        return a.second > b.second;//오름차순
+//
+//    }
+//
+//};
+
 struct compare {
 
 
-    bool operator()(pair<int, int> &a, pair<int, int> &b) {
+    bool operator()(int &a, int &b) {
 
-        if (a.first != b.first)
-            return a.first > b.first; //오름차순
-        return a.second > b.second;//오름차순
+        if (abs(a) != abs(b))
+            return abs(a) > abs(b); //오름차순
+        return a > b;//오름차순
 
     }
 
 };
 
 
-priority_queue<pair<int, int>, vector<pair<int, int>>, compare> pq;
-
+//priority_queue<pair<int, int>, vector<pair<int, int>>, compare> pq;
+priority_queue<int, vector<int>, compare> pq;
 
 int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
     int N, num;
     cin >> N;
@@ -35,12 +51,13 @@ int main() {
         cin >> num;
 
         if (num != 0) {
-            pq.push({abs(num), num});
+//            pq.push({abs(num), num});
+            pq.push(num);
         } else {
 
             if (pq.empty())cout << 0 << "\n";
             else {
-                cout << pq.top().second << "\n";
+                cout << pq.top() << "\n";
                 pq.pop();
             }
 
