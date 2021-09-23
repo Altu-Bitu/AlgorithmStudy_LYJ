@@ -4,28 +4,34 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
 vector<bool> is_prime;
 
+
 //에라스토테네스의 체
-bool isPrime(int n) {
+void isPrime(int n) {
 
 
     if (n <= 1) {
         is_prime.assign(n + 1, false);
-        return false;
+        return;
     };
 
     is_prime.assign(n + 1, true); //처음엔 전부 true
 
     for (int i = 2; i * i <= n; i++) {
-        if (is_prime[i])//해당 칸이 true면
-            for (int j = i * i; j <= n; j += i)
+        if (is_prime[i]) {//해당 칸이 true면
+            for (int j = i * i; j <= n; j += i) {
                 is_prime[j] = false;
+            }
+        }
+
+
     }
-    return true;
+
 
 }
 
@@ -39,29 +45,16 @@ int main() {
     while (cin >> num) {
         if (num == 0) break;
 
-        bool res = isPrime(num);
+        isPrime(num);
 
-        if (!res) {
-            cout << "Goldbach's conjecture is wrong." << "\n";
-            continue;
-        }
+        int range = round((double) num / 2.0);
 
-        if (is_prime[2]) {
-            if (is_prime[num - 2]) {
-                cout << num << " = " << 2 << " + " << num - 2 << "\n";
-                continue;
+        for (int i = 3; i <= range; i += 2) { //2어쩌피 짝수라 안됨 + 2배수 검사할 필요없음 + 절반까지만 해도 상관없음(후자는 num-i)에서 걸림
+            if (is_prime[i] && is_prime[num - i]) {
+                cout << num << " = " << i << " + " << num - i << "\n";
+                break;
             }
-        }
-
-
-        for (int i = 3; i < num - 1; i += 2) {
-            if (is_prime[i]) {
-                if (is_prime[num - i]) {
-                    cout << num << " = " << i << " + " << num - i << "\n";
-                    break;
-                }
-            }
-            if (i == num - 2) cout << "Goldbach's conjecture is wrong." << "\n";
+            if (i == range) cout << "Goldbach's conjecture is wrong." << "\n";
         }
 
 
