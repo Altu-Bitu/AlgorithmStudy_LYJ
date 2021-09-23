@@ -42,10 +42,10 @@ int main() {
 
     int num;
 
+    isPrime(1000000); // 미리 구해두기 매 case마다 구하는건 비효율적이다.
+
     while (cin >> num) {
         if (num == 0) break;
-
-        isPrime(num);
 
         int range = round((double) num / 2.0);
 
