@@ -9,7 +9,7 @@
 using namespace std;
 
 vector<bool> is_prime;
-
+const int SIZE = 1000000;
 
 //에라스토테네스의 체
 void isPrime(int n) {
@@ -42,7 +42,7 @@ int main() {
 
     int num;
 
-    isPrime(1000000); // 미리 구해두기 매 case마다 구하는건 비효율적이다.
+    isPrime(SIZE); // 미리 구해두기 매 case마다 구하는건 비효율적이다.
 
     while (cin >> num) {
         if (num == 0) break;
