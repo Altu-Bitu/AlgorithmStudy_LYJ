@@ -51,7 +51,7 @@ int main() {
         cin >> l >> p;
         v[i].first = l;
         v[i].second = p;
-        s.push_back(stack); //이거 떄문에 메모리초과 , 근데 안하면 스택이 없어서 에러  ㅠ 
+        s.push_back(stack); //이거 떄문에 메모리초과 , 근데 안하면 스택이 없어서 에러  ㅠ
     }
 
 
