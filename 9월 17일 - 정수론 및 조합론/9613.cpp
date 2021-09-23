@@ -39,10 +39,10 @@ int main() {
 
         long long sum = 0;
 
-        for (int j = 0; j < num; j++) {
+        for (int i = 0; i < num; i++) {
 
-            for (int k = 0; k < j; k++) {
-                sum += gcd(arr[j], arr[k]);
+            for (int j = 0; j < i; j++) {
+                sum += gcd(arr[i], arr[j]);
             }
 
         }
