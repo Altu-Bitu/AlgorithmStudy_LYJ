@@ -12,7 +12,12 @@
 
 using namespace std;
 
-// 우선순위 큐 문제가 아닌건지?? 어쩌피 연신 set , priority Q 둘다 logn같아서 일단 이걸로했는데 흠..
+// 우선순위 큐 문제가 아닌건지??
+// 우선순위 큐 문제 아니다!
+// 출력이 0 / 1 이므로 1.비트마스킹 2.bool배열문제
+// https://iagreebut.tistory.com/198
+
+
 
 set<int> s;
 
