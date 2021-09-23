@@ -31,6 +31,10 @@ vector<stack<int>> s;
 
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
 
     int N, P; //음의 수 , 프렛의 수
     stack<int> stack;
@@ -47,7 +51,7 @@ int main() {
         cin >> l >> p;
         v[i].first = l;
         v[i].second = p;
-        s.push_back(stack);
+        s.push_back(stack); //이거 떄문에 메모리초과 , 근데 안하면 스택이 없어서 에러  ㅠ 
     }
 
 
@@ -65,21 +69,21 @@ int main() {
 
 
         if (s[line].empty()) { //해당 줄 연주가 없음
-            cout << "line : " << line << " is empty" << "\n";
+//            cout << "line : " << line << " is empty" << "\n";
             ans++;
             s[line].push(fret);
         } else {//s[line]스택에 뭔가 있음(이전 연주가 존재)
 
             if (s[line].top() > fret) {
 
-                cout << "line : " << line << "\n";
-                cout << "line top: " << s[line].top() << "\n";
-                cout << "bigger than fret " << fret << "\n";
+//                cout << "line : " << line << "\n";
+//                cout << "line top: " << s[line].top() << "\n";
+//                cout << "bigger than fret " << fret << "\n";
 
                 while (!s[line].empty() && s[line].top() > fret) {
 
-                    cout << "======start pop========" << "\n";
-                    cout << "now top is " << s[line].top() << "\n";
+//                    cout << "======start pop========" << "\n";
+//                    cout << "now top is " << s[line].top() << "\n";
 
 
                     s[line].pop();
@@ -91,13 +95,13 @@ int main() {
                 // 더커졌으면 -> 그냥 넣기
                 if (s[line].empty()) {
 
-                    cout << "======end pop========" << "\n";
-                    cout << " now empty " << "\n";
+//                    cout << "======end pop========" << "\n";
+//                    cout << " now empty " << "\n";
                     s[line].push(fret);
                     ans++;
                 } else {
-                    cout << "======start end========" << "\n";
-                    cout << "now top is " << s[line].top() << "\n";
+//                    cout << "======start end========" << "\n";
+//                    cout << "now top is " << s[line].top() << "\n";
 
 
                     if (s[line].top() == fret) continue;
@@ -107,9 +111,9 @@ int main() {
 
             } else if (s[line].top() < fret) {
 
-                cout << "line : " << line << "\n";
-                cout << "line top: " << s[line].top() << "\n";
-                cout << "less than fret " << fret << "\n";
+//                cout << "line : " << line << "\n";
+//                cout << "line top: " << s[line].top() << "\n";
+//                cout << "less than fret " << fret << "\n";
 
                 ans++;
                 s[line].push(fret);
@@ -117,7 +121,7 @@ int main() {
             //같은 경우는 아무것도 안해도됨
         }
 
-        cout << "===================================================" << "\n";
+//        cout << "===================================================" << "\n";
 
 
     }
