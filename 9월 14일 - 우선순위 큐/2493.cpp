@@ -9,7 +9,7 @@
 
 using namespace std;
 
-
+// 샘플코드
 // 1. 답의 높이를 저장하는 벡터 / 탑의 인덱스는 따로 stack
 vector<int> transTop1(int n, vector<int> &num) {
     stack<int> st;
@@ -27,7 +27,27 @@ vector<int> transTop1(int n, vector<int> &num) {
 }
 
 
+int main() {
+    int n;
 
+    //입력
+    cin >> n;
+
+    vector<int> num(n + 1, 0); //탑의 인덱스가 1부터 시작하므로 n+1 할당
+    for (int i = 1; i <= n; i++)
+        cin >> num[i];
+
+    //연산
+    //vector<int> ans = transTop1(n, num);
+    vector<int> ans = transTop2(n, num);
+
+    //출력
+    for (int i = 1; i <= n; i++) {
+        cout << ans[i] << ' ';
+    }
+
+    return 0;
+}
 
 
 //2. 탑의 높이, 탑의 인덱스를 동시에 저장하는 pair stack사용
