@@ -1,10 +1,9 @@
 //
-// Created by 이유정 on 2021/09/19.
+// https://iagreebut.tistory.com/204
 //
 
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <stack>
 
 using namespace std;
@@ -26,6 +25,22 @@ vector<int> transTop1(int n, vector<int> &num) {
     return ans;
 }
 
+//n ~ 1 돌면서 수신탑 찾기
+vector<int> transTop2(int n, vector<int> &num) {
+    stack<int> st;
+    vector<int> ans(n + 1, 0); //수신 탑 저장
+
+    for (int i = n; i >= 1; i--) {
+        while (!st.empty() && num[st.top()] < num[i]) { //현재 탑 높이보다 st.top() 인덱스의 탑 높이가 낮다면 현재 탑이 수신탑
+            ans[st.top()] = i;
+            st.pop(); //수신탑이 정해졌으므로 pop
+        }
+        st.push(i); //현재 탑 인덱스 스택에 push
+    }
+
+    return ans;
+}
+
 
 int main() {
     int n;
@@ -38,8 +53,8 @@ int main() {
         cin >> num[i];
 
     //연산
-    //vector<int> ans = transTop1(n, num);
-    vector<int> ans = transTop2(n, num);
+    vector<int> ans = transTop1(n, num);
+//    vector<int> ans = transTop2(n, num);
 
     //출력
     for (int i = 1; i <= n; i++) {
@@ -51,7 +66,7 @@ int main() {
 
 
 //2. 탑의 높이, 탑의 인덱스를 동시에 저장하는 pair stack사용
-
+//
 //stack<pair<int, int>> s; // 탑의 높이, 몇번째 탑인지
 //vector<int> ans;
 //
