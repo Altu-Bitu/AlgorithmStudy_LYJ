@@ -1,17 +1,17 @@
-//
-// Created by 이유정 on 2021/09/25.
-//
+
 
 #include <iostream>
 #include <vector>
 #include <map>
+#include <cmath>
+#include <algorithm>
 
 using namespace std;
 
 
 bool cmp(const pair<int, int> &a, const pair<int, int> &b) {
-    if (a.second != b.second) return a.first > b.first; //내림차순
-    return a.second < b.second; //오름차순
+    if (a.second != b.second) return a.second > b.second; //내림차순
+    return a.first < b.first; //오름차순
 }
 
 
@@ -24,9 +24,10 @@ int main() {
     v.assign(N, 0);
 
 
-    int mean, median, mode, range;
+    int median, mode, range;
 
-    int sum = 0;
+    double mean;
+    double sum = 0;
 
     for (int i = 0; i < N; i++) {
         cin >> num;
@@ -39,18 +40,26 @@ int main() {
 
 
     mean = sum / N;
-    median = v[N / 2 + 1];
-    range = v.end() - v.begin();
+    median = v[N / 2];
+    range = v[N - 1] - v[0]; //v.end()-v.begin()은 안됨..
 
+//    for (int i = 0; i < N; i++) {
+//        cout << v[i] << " ";
+//    }
 
     vector<pair<int, int>> vec(m.begin(), m.end());
     sort(vec.begin(), vec.end(), cmp);
 
+//    for (int i = 0; i < vec.size(); i++) {
+//        cout << vec[i].first << " " << vec[i].second << "\n";
+//    }
+
     if (vec[0].second != vec[1].second) mode = vec[0].first;
     else mode = vec[1].first;
 
-
-    cout << mean << "\n" << median << "\n" << mode << "\n" << range; 
+    cout << fixed;
+    cout.precision(0);
+    cout << mean << "\n" << median << "\n" << mode << "\n" << range;
 
 
 }
