@@ -19,99 +19,69 @@
  * 2. 알고리즘을 구현하는 방식이 너무 정리되지 않게 짜여짐
  * */
 
+
+
+
+
+
+
 #include <iostream>
-#include <stack>
 #include <vector>
+#include <stack>
 
 using namespace std;
+vector<pair<int, int>> v;
 
-/**
- * 각 줄마다 외계인이 누르고 있는 프렛을 스택에 저장하기
- * 매 입력에 대해 이번에 누를 프렛이 해당 줄에서 가장 높은 프렛이어야 함
- *
- * 1. 이번에 눌러야 할 프렛보다 높은 프렛에서 손가락을 전부 떼기
- * 2. 만약 이번에 눌러야 할 프렛을 누르고 있지 않다면 누르기
- */
+
+vector<stack<int>> s(7);
+
+
 int main() {
-    int n, p, guitar_string, fret, ans = 0;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    cin >> n >> p;
-    vector<stack<int>> guitar(7); //1번 줄부터 6번줄 까지
-    while (n--) {
-        //입력
-        cin >> guitar_string >> fret;
 
-        //연산
-        while (!guitar[guitar_string].empty() && guitar[guitar_string].top() > fret) { //프렛에서 손가락 떼기
-            ans++;
-            guitar[guitar_string].pop();
-        }
-        if (guitar[guitar_string].empty() || guitar[guitar_string].top() != fret) { //프렛 누르기
-            ans++;
-            guitar[guitar_string].push(fret);
-        }
+    int N, P; //음의 수 , 프렛의 수
+    stack<int> stack;
+
+    cin >> N >> P;
+
+    v.assign(N, {0, 0});
+
+
+    int l, p;//줄 번호, 프렛번호
+
+
+    for (int i = 0; i < N; i++) {
+        cin >> l >> p;
+        v[i] = {l, p};
+
+
     }
 
-    //출력
-    cout << ans;
-}
+
+    int ans = 0; //맨 처음 연주
+    int line, fret;
+
+
+    for (int i = 0; i < N; i++) {
 
 
 
+        //현 입력
+        line = v[i].first;
+        fret = v[i].second;
 
-//
-//
-//#include <iostream>
-//#include <vector>
-//#include <stack>
-//
-//using namespace std;
-//vector<pair<int, int>> v;
-//
-//
-//
-//
-//
-//
-//vector<stack<int>> s;
-//
-//
-//int main() {
-//    ios::sync_with_stdio(false);
-//    cin.tie(NULL);
-//    cout.tie(NULL);
-//
-//
-//    int N, P; //음의 수 , 프렛의 수
-//    stack<int> stack;
-//
-//    cin >> N >> P;
-//
-//    v.assign(N, {0, 0});
-//
-//
-//    int l, p;//줄 번호, 프렛번호
-//
-//
-//    for (int i = 0; i < N; i++) {
-//        cin >> l >> p;
-//        v[i].first = l;
-//        v[i].second = p;
-//        s.push_back(stack); //이거 떄문에 메모리초과 , 근데 안하면 스택이 없어서 에러  ㅠ
-//    }
-//
-//
-//    int ans = 0; //맨 처음 연주
-//    int line, fret;
-//
-//
-//    for (int i = 0; i < N; i++) {
-//
-//
-//
-//        //현 입력
-//        line = v[i].first;
-//        fret = v[i].second;
+
+        while (!s[line].empty() && s[line].top() > fret) {
+            s[line].pop();
+            ans++;
+        }
+        if (s[line].empty() || s[line].top() != fret) {
+            ans++;
+            s[line].push(fret);
+        }
 //
 //
 //        if (s[line].empty()) { //해당 줄 연주가 없음
@@ -168,12 +138,12 @@ int main() {
 //        }
 //
 ////        cout << "===================================================" << "\n";
-//
-//
-//    }
-//
-//    cout << ans;
-//
-//
-//}
-//
+
+
+    }
+
+    cout << ans;
+
+
+}
+
