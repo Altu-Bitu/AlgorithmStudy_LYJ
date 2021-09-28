@@ -1,9 +1,8 @@
 //
-// Created by 이유정 on 2021/09/29.
+// N과 M(11)
 //
 
 #include <iostream>
-#include <vector>
 #include <map>
 
 using namespace std;
