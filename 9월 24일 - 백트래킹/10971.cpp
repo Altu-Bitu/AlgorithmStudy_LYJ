@@ -12,7 +12,7 @@ const int SIZE = 10;
 int N;
 int min_cost = 1e9;
 vector<vector<int>> v;
-int check[SIZE]; //모든 도시를 방문해야함
+bool check[SIZE]; //모든 도시를 방문해야함
 
 
 void backtracking(int cur, int cost, int cnt, int first) { //마지막으로 방문한 도시, 지금까지의 금액, 지금 까지 계산한 것 중 최소, 최초 시작마을
