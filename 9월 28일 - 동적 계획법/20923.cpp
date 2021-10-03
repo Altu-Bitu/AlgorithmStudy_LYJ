@@ -38,7 +38,7 @@ bool check_dodo() {
 
     if (do_gnd.empty() && su_gnd.empty()) return false;//둘다 빔
 
-    //둘중 하나만 빔 
+    //둘중 하나만 빔
 
     if (do_gnd.empty()) {
         return su_gnd.top() == 5;
