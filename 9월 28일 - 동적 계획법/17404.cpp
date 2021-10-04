@@ -3,6 +3,7 @@
 
 using namespace std;
 
+const int INF = 999999999;
 const int SIZE = 1000;
 const int RED = 0;
 const int GREEN = 1;
@@ -21,14 +22,14 @@ int main() {
         cin >> cost[i][RED] >> cost[i][GREEN] >> cost[i][BLUE];
     }
 
-    int ans = 999999999;
+    int ans = INF;
 
 
     for (int j = 0; j < 3; j++) {//각각 색으로 시작하는경우 따로
 
-        dp[1][RED] = 999999999;
-        dp[1][GREEN] = 999999999;
-        dp[1][BLUE] = 999999999;
+        dp[1][RED] = INF;
+        dp[1][GREEN] = INF;
+        dp[1][BLUE] = INF;
 
         dp[1][j] = cost[1][j]; //첫번쨰 꺼 j색으로 칠함
 
