@@ -7,7 +7,6 @@
 
 using namespace std;
 
-const int SIZE = 50;
 vector<vector<int>> arr;
 vector<vector<int>> ans;
 
