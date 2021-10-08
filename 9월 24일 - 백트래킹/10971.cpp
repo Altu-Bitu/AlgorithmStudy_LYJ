@@ -38,18 +38,18 @@ void backtracking(int cur, int cost, int cnt, int first) { //마지막으로 방
     for (int i = 0; i < N; i++) {
 
 
-        if (v[cur][i] != 0 && !check[i] && min_cost > cost) {//해당도시 방문 가능
+        if (v[cur][i] != 0 && !check[i]) {//해당도시 방문 가능 or 45행 안넣을거면 &&min_cost>=cost 추가해야함
             check[i] = true;//방문했다고 체크
             cost += v[cur][i];//지금도시 -> i도시로의 가격
 
-//            if (min_cost >= cost) { //최소가격(?) 보다 큰경우 더이상 해당 가지 탐색 x -> 이렇게 했더니 틀렸고 위에있는 if문에 추가하니 맞음...
+            if (min_cost >= cost) { //최소가격(?) 보다 큰경우 더이상 해당 가지 탐색 x -> 이렇게 했더니 틀렸고 위에있는 if문에 추가하니 맞음...
 //                cout << "next(i) : " << i << "\n";
-            backtracking(i, cost, cnt + 1, first);
-
+                backtracking(i, cost, cnt + 1, first);
+            } // 여기로 해야 정답이고 시간도 훨 줄었다
             //원래 상태로 되돌리기
             check[i] = false;// 방문기록x
             cost -= v[cur][i];// 금액 제외시킴
-//            }
+//            } -> 이부분 피드백 : 원래대로 돌리는 부분을 if문 내에 넣어버렸기 때문에 ! 42행에서 도시가 체크되고 원복이 안되어서 에러였다!! 원복부분을 뺴야함
         }
     }
 
@@ -62,16 +62,16 @@ int main() {
     cout.tie(0);
 
     cin >> N;
-
-    vector<int> vec(N, 0);
+    v.assign(N, vector<int>(N, 0));
+//    vector<int> vec(N, 0);
 
 
     for (int j = 0; j < N; j++) {
         for (int i = 0; i < N; i++) {
-            cin >> vec[i];
+            cin >> v[j][i];
         }
-        v.push_back(vec);
-        vec.assign(N, 0);
+//        v.push_back(vec);
+//        vec.assign(N, 0);
     }
 
 
