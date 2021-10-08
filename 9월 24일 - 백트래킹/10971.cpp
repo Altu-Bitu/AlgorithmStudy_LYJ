@@ -27,7 +27,6 @@ void backtracking(int cur, int cost, int cnt, int first) { //마지막으로 방
 //            cout << "last : " << cur << "\n";
 //            cout << "cost : " << cost << "\n";
             if (min_cost > cost) min_cost = cost; //구한 값이 최소면 갱신
-            return;
         }
 
         return;
