@@ -24,17 +24,15 @@ void backtracking(int cnt) {
     }
 
     for (auto it = m.begin(); it != m.end(); it++) {
-        if (it->second < M) { //m번 이하로 등장했다면 아직쓸수있음
-            num[cnt] = it->first; // 자연수
-            it->second++;// 해당 자연수 등장 횟수 +1
-            //백트래킹
-            backtracking(cnt + 1);
-            it->second--;//원래 상태로 되돌리기
-        }
+//        if (it->second < M) { //m번 이하로 등장했다면 아직쓸수있음
+        num[cnt] = it->first; // 자연수
+//            it->second++;// 해당 자연수 등장 횟수 +1
+        //백트래킹
+        backtracking(cnt + 1);
+//            it->second--;//원래 상태로 되돌리기
     }
-
-
 }
+
 
 int main() {
 
