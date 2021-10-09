@@ -13,10 +13,15 @@ typedef pair<int, char> ic;
 
 
 const int SIZE = 100;
-const int TOP = 0;
-const int BOT = 1;
-const int LEFT = 2;
-const int RIGHT = 3;
+//const int TOP = 1;
+//const int BOT = 3;
+//const int LEFT = 2;
+//const int RIGHT = 0;
+ii dir[4] = {{0,  1},  //우
+             {-1, 0},  //상
+             {0,  -1}, //좌
+             {1,  0}}; //하
+
 
 
 int board[SIZE + 2][SIZE + 2] = {0};
@@ -35,29 +40,29 @@ void initBoard(int n) {
 }
 
 //지금 향하는 방향과, 틀 방향을 입력하면, 앞으로 향할 방향을 리턴하는 함수
-int changeDir(int now, char dir) {
-
-    switch (now) {
-        case TOP:
-            if (dir == 'L') return LEFT;
-            else if (dir == 'D') return RIGHT;
-            break;
-        case BOT:
-            if (dir == 'L') return RIGHT;
-            else if (dir == 'D') return LEFT;
-            break;
-        case LEFT:
-            if (dir == 'L') return BOT;
-            else if (dir == 'D') return TOP;
-            break;
-        case RIGHT:
-            if (dir == 'L') return TOP;
-            else if (dir == 'D') return BOT;
-            break;
-        default:
-            break;
-    }
-}
+//int changeDir(int now, char dir) {
+//
+//    switch (now) {
+//        case TOP:
+//            if (dir == 'L') return LEFT;
+//            else if (dir == 'D') return RIGHT;
+//            break;
+//        case BOT:
+//            if (dir == 'L') return RIGHT;
+//            else if (dir == 'D') return LEFT;
+//            break;
+//        case LEFT:
+//            if (dir == 'L') return BOT;
+//            else if (dir == 'D') return TOP;
+//            break;
+//        case RIGHT:
+//            if (dir == 'L') return TOP;
+//            else if (dir == 'D') return BOT;
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
 
 void move(int x, int y) {
@@ -111,7 +116,7 @@ int main() {
     }
 
     int sec = 0;
-    int cur_dir = RIGHT;//최초 머리의 방향 (오른쪽)
+    int cur_dir = 0;//최초 머리의 방향 (오른쪽)
     ii top;
 
     int x, y;
@@ -120,20 +125,23 @@ int main() {
         top = snake.front();//현재 머리의 위치
         sec++;
 
+        x = top.first + dir[cur_dir].first;
+        y = top.second + dir[cur_dir].second;
+
         //머리의 방향에 따라 어느방향으로 이동할지 결정해줌
-        if (cur_dir == TOP) {
-            x = top.first - 1;
-            y = top.second;
-        } else if (cur_dir == BOT) {
-            x = top.first + 1;
-            y = top.second;
-        } else if (cur_dir == RIGHT) {
-            x = top.first;
-            y = top.second + 1;
-        } else if (cur_dir == LEFT) {
-            x = top.first;
-            y = top.second - 1;
-        }
+//        if (cur_dir == TOP) {
+//            x = top.first - 1;
+//            y = top.second;
+//        } else if (cur_dir == BOT) {
+//            x = top.first + 1;
+//            y = top.second;
+//        } else if (cur_dir == RIGHT) {
+//            x = top.first;
+//            y = top.second + 1;
+//        } else if (cur_dir == LEFT) {
+//            x = top.first;
+//            y = top.second - 1;
+//        }
 
 
         //벽과 부딪힘 or 본인 몸과 부딪힘 -> 종료
@@ -146,8 +154,11 @@ int main() {
 
         //방향 전환 여부 확인
         if (sec == direction.front().first) {
-            //방향을 전환
-            cur_dir = changeDir(cur_dir, direction.front().second);
+            //방향을 전환 -> 이렇게 간단하게 구현할 수 있음!
+            if (direction.front().second == 'L')
+                cur_dir = (cur_dir + 1) % 4;
+            else
+                cur_dir = (cur_dir + 3) % 4;
             //pop
             direction.pop();
         }
