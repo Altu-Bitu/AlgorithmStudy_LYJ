@@ -67,16 +67,16 @@ void move(int x, int y) {
 
     // 이동했는데 사과가 있는지 확인
     if (board[x][y] == 2) {
-        board[x][y] = 0;// 있음 remove apple
+        board[x][y] = 0;// 있음 -> 사과만 제거 (꼬리 움직이지 x)
     } else {
         tmp = snake.back();
         board[tmp.first][tmp.second] = 0;
-        snake.pop_back(); // 없음 tail pop
+        snake.pop_back(); // 사과 없음 -> 꼬리 제거 tail pop
     }
 
-    //아니면 이동하기 push front
+    //머리 이동하기 push front
     snake.push_front({x, y});
-    board[x][y] = 1;
+    board[x][y] = 1; //이동한 부분 1로 변경
 
 
 }
@@ -111,15 +111,16 @@ int main() {
     }
 
     int sec = 0;
-    int cur_dir = RIGHT;
+    int cur_dir = RIGHT;//최초 머리의 방향 (오른쪽)
     ii top;
 
     int x, y;
     while (true) {
         // 이동
-        top = snake.front();
+        top = snake.front();//현재 머리의 위치
         sec++;
 
+        //머리의 방향에 따라 어느방향으로 이동할지 결정해줌
         if (cur_dir == TOP) {
             x = top.first - 1;
             y = top.second;
@@ -135,9 +136,10 @@ int main() {
         }
 
 
-        //벽과 부딪힘 or 본인 몸과 부딪힘
+        //벽과 부딪힘 or 본인 몸과 부딪힘 -> 종료
         if (board[x][y] == 1) break;
 
+        //이동
         move(x, y);
 
         //x초가 끝난 뒤
