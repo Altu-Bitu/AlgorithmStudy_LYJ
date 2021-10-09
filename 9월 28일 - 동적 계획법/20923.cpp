@@ -24,7 +24,6 @@ deque<int> suy;
 
 deque<int> do_gnd;
 deque<int> su_gnd;
-int winner;
 
 bool check_su() {//도도의 그라운드top, 수연의 ground top
     //2 . 수연 체크
@@ -55,30 +54,18 @@ bool check_dodo(int card) {
 }
 
 
-void win() {
+void win(deque<int> &winner_gnd, deque<int> &loser_gnd, deque<int> &winner) {
 
-    if (winner == 1) { //dodo win
-        while (!su_gnd.empty()) {
-            dodo.push_front(su_gnd.front());
-            su_gnd.pop_front();
-        }
 
-        while (!do_gnd.empty()) {
-            dodo.push_front(do_gnd.front());
-            do_gnd.pop_front();
-        }
-    } else if (winner == 2) { //수연 win
-        while (!do_gnd.empty()) {
-            suy.push_front(do_gnd.front());
-            do_gnd.pop_front();
-        }
-
-        while (!su_gnd.empty()) {
-            suy.push_front(su_gnd.front());
-            su_gnd.pop_front();
-        }
+    while (!loser_gnd.empty()) {
+        winner.push_front(loser_gnd.front());
+        loser_gnd.pop_front();
     }
-    winner = 0;
+
+    while (!winner_gnd.empty()) {
+        winner.push_front(winner_gnd.front());
+        winner_gnd.pop_front();
+    }
 
 }
 
@@ -145,9 +132,8 @@ int main() {
         su_res = check_su();
 
 
-        if (do_res) winner = 1;
-        else if (su_res) winner = 2;
-        win();
+        if (do_res) win(do_gnd, su_gnd, dodo);
+        else if (su_res) win(su_gnd, do_gnd, suy);
 
         m--;
         if (m <= 0) break;
@@ -162,9 +148,8 @@ int main() {
         do_res = check_dodo(su_gnd.back());
         su_res = check_su();
 
-        if (do_res) winner = 1;
-        else if (su_res) winner = 2;
-        win();
+        if (do_res) win(do_gnd, su_gnd, dodo);
+        else if (su_res) win(su_gnd, do_gnd, suy);
 
         m--;
         if (m <= 0) break;
@@ -177,12 +162,5 @@ int main() {
         else if (dodo.size() < suy.size()) cout << "su\n";
         else cout << "dosu\n";
     }
-
-//    while (!dodo.empty()) {
-//        cout << dodo.front() << " " << suyeon.front() << "\n";
-//        dodo.pop_front();
-//        suyeon.pop_front();
-//    }
-
-
+    
 }
