@@ -1,6 +1,8 @@
 //분할 정복
 // ⚾
 //
+// 구글링 : c++ 순열 만들기 / next_permutation
+// https://twpower.github.io/82-next_permutation-and-prev_permutation
 
 #include <iostream>
 #include <vector>
