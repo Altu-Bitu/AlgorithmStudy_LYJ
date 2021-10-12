@@ -30,7 +30,6 @@ int main() {
     int n;
     cin >> n;
 
-    vector<int> line;
     line.assign(n, 0);
 
     for (int i = 0; i < n; i++) {
@@ -41,16 +40,6 @@ int main() {
     sort(line.begin(), line.end(), greater<int>());
 
 
-//    cout << makeTri(n); -> 이거 왜 error??
+    cout << makeTri(n);
 
-
-    for (int i = 0; i < n - 2; i++) {
-        if (line[i] < line[i + 1] + line[i + 2]) {
-            cout << line[i] + line[i + 1] + line[i + 2] << "\n";
-            exit(0);
-        }
-    }
-
-
-    cout << -1;
 }
