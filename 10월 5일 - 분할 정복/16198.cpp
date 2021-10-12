@@ -54,7 +54,7 @@ int main() {
             check[idx] = true;
 
 
-            //안사용한 부분찾기 
+            //안사용한 부분찾기
             int left = idx - 1;
             int right = idx + 1;
 
