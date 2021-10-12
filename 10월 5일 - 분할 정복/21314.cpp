@@ -1,6 +1,10 @@
 //
 // 민겸수
 //
+// 피드백 : 반례
+// MKMMM max - 50111 not 50100
+//
+//
 
 #include <iostream>
 #include <queue>
@@ -47,12 +51,11 @@ int main() {
     }
 
     //남은 것 출력
-    if (num == 1) {
-        max_str += '1';
-    } else if (num > 0) {
-        max_str += '1';
-        for (int i = 0; i < num - 1; i++) { //1이 맨 앞에 붙어서 1개 적은 0의 수
-            max_str += '0';
+    //주의! 최댓값이므로 남은 M은 전부 1인것이 크다!
+    if (num > 0) {
+
+        for (int i = 0; i < num; i++) { //1이 맨 앞에 붙어서 1개 적은 0의 수
+            max_str += '1';
         }
     }
 
