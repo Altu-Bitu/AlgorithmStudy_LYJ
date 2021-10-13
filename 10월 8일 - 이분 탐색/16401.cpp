@@ -30,37 +30,19 @@ int divide(int k) { // k : 나눠줄 과자의 길이,
     int ans = 0;
 
     int i = 0;
-    while (i < n) {
-        int len = sticks[i];
-//        cout << "[ " << i << " ]\n";
-//        cout << "<<BEFORE>>\n";
-//        cout << "ans : " << ans << " i지금과자 : " << i << "번  이 과자의 길이 : " << len << "\n";
+    while (i < n) { //모든 과자를 다 보기
+        int len = sticks[i];//현재 과자의 길이
 
-
-        if (len < k) {
-//            cout << "못쓰는 과자다\n";
-            //버려
-            i++;
-        } else if (len > k) {
-//            cout << "쓸 수 있는 과자다\n";
-            //짤린조각도 나눠줄 수 잇을떄까지 잘라
-            while (len >= k) {
-//                cout << "과자 자른다~\n";
+        if (len > k) { // 과자길이가 기준 보다 긴경우
+            while (len >= k) {//자를 수 있을 떄 까지 자르기
                 len -= k;
                 ans++;
             }
-            i++;
-
-        } else if (len == k) {
-//            cout << "딱맞는 과자다 \n";
+        } else if (len == k) {//딱맞으면 그냥 쓰기
             ans++;
-            i++;
         }
 
-//        cout << "<<AFTER>>\n";
-//        cout << "ans : " << ans << " i지금과자 : " << i << "번\n";
-//
-//        cout << "\n";
+        i++;//다음과자
     }
 
 
@@ -106,7 +88,6 @@ int main() {
     //과자의 길이 최대 : 과자 길이 중 최대 값
     cout << upperSearch(1, sticks[n - 1], m);
 
-//    cout << divide(4);
 
 }
 
