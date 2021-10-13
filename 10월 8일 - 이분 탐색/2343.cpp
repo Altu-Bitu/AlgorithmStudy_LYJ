@@ -12,96 +12,63 @@ vector<int> videos;
 
 int n, m; //강의수 , 블루레이 수 (각 블루레이에 들어가는 크기 K)
 
-/*
+/* Parametric Search
  * 강의 n개 (길이는 각각 다르나(최대10000분) 순서대로 들어가야한다)
  * 블루레이 수 m개 (들어갈 수 있는 길이가 전부 k분 으로 동일)
  *
  * -> 블루레이의 크기가 k일 때, m개의 블루레이에 강의 n개를 전부 넣을 수 있는가?
- *
- *
- *
  *
  */
 
 
 int blueRay(int k) {// k = mid(블루레이의 크기)
 
-    int num = 0;//들어갈 수 있는 강의 수
-
 
     int video_num = 0; // 0~n-1까지 n개
     int blue_num = 1; //
     int size = k; //blue ray 1개 당 들어갈 수 있는 최대 분 수
-    int i = 0;
+
     while (video_num < n && blue_num <= m) {//n개의 강의를 다 넣거나 / 블루레이 m개를 다 소비하거나
 
-//        cout << "[ " << i << " ] 회 차 \n";
-//        cout << "<<<BEFORE>>>\n";
-//        cout << "video number : " << video_num << "  blue number : " << blue_num << "(size:<<" << size << ")\n";
+        size -= videos[video_num];
+        video_num++; //넣었으니까 다음껄로
 
 
-        if (size - videos[video_num] > 0) {
-//            cout << "채우기 : o 남은 부분 : o\n";
-            //넣을 수 있음
-
-            size -= videos[video_num];
-            video_num++; //넣었으니까 다음껄로
-
-
-
-        } else if (size - videos[video_num] < 0) {
-            //넣을 수 없음
-//            cout << "채우기 : x 남은 부분 : o (있지만 못채우고 다음으로 넘어가야함)\n";
-            //블루레이
+        if (size < 0) {
+            video_num--; // 넣을 수 없는 경우임, video_num++되면 안됨 (아직 못넣었음)
             blue_num++; //새거 꺼내
             size = k; //그럼 사이즈도 새거
-        } else if (size - videos[video_num] == 0) {
-//            cout << "채우기 : o 남은 부분 : x (꽉 참 )\n";
-            //지금 거 까진 넣을 수 있지만 앞으로는 불가능
-            size -= videos[video_num];
-            video_num++;
+        } else if (size == 0) {
 
             //블루레이
             blue_num++; //새거 꺼내
             size = k; //그럼 사이즈도 새거
         }
 
-//        cout << "<<<AFTER>>>\n";
-//        cout << "video number : " << video_num << "  blue number : " << blue_num << "(size:<<" << size << ")\n";
-//        cout << "===================================================\n";
-
-        if (blue_num >= m + 1) break;
 
     }
 
-    if (blue_num < m) return 1e9; //blueray를 전부 쓰지 못함 (k가 너무 크다는 뜻)
+//    if (blue_num < m) return 1e9; //blueray를 전부 쓰지 못함 (k가 너무 크다는 뜻 -> k를 줄여야 하기 때문에 else if문에 걸리도록 그냥 큰 값 보내주기)
+//      이 부분 필요 없음 어쩌피 else if문 같아도 걸리게 짜서 ㄱㅊ음
 
     return video_num;//넣을 수 있는 강의 수
 }
 
 int lowerSearch(int left, int right, int target) { //target = n
 
-    int ans = 0;
     while (left <= right) {
 
         int mid = (left + right) / 2;
-//
-//        cout << "mid : " << mid << "\n";
-//        cout << "blueRay(mid) : " << blueRay(mid) << "\n";
 
         if (blueRay(mid) < target) { //수업이 더 적게 저장됨 -> k를 증가시켜야함
             left = mid + 1;
-        } else if (blueRay(mid) >= target) { //수업이 더 많이 저장됨 -> k를 감소시켜야 ㄴ
-            ans = mid;
+        } else if (blueRay(mid) >= target) { //수업이 더 많이 저장됨 -> k를 감소시켜야 함 (lowerSearch라 여기가 ==일 때도 right를 앞으로 옮겨서 왼쪽탐색)
             right = mid - 1;
         }
 
     }
 
-
-    return ans;
-
-
+    return right + 1;
 }
 
 
@@ -124,5 +91,5 @@ int main() {
     //블루레이 크기의 최대 : 모든 전체 합?
     cout << lowerSearch(*max_element(videos.begin(), videos.end()), sum, n);
 
-//    cout << blueRay(9);
 }
+
