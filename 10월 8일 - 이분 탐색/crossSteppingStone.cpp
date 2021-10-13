@@ -89,7 +89,7 @@ int upperSearch(int left, int right, int target, vector<int> stones) {
 
     }
 
-    return right + 1;
+    return left - 1; //같으면 한칸 mid+1로 가서 탐색 (근데 아니었으니까 여기까지 내려온거라서 그 이전 마지막이 답이었음) -1 해줌
 
 }
 
