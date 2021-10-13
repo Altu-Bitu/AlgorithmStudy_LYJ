@@ -17,8 +17,8 @@ void change(int x, int y) {
         for (int j = 0; j < 3; j++) {
             // i~ i+3-1
             // j~ j+3-1
-            // 한줄로 -> 삼항연산자 사용?
-            arr[x + i][y + j] == 0 ? arr[x + i][y + j] = 1 : arr[x + i][y + j] = 0;
+            // 한줄로 -> 논리 부정 연산자(!)
+            arr[x + i][y + j] = !arr[x + i][y + j];//반전
 //            if (arr[x + i][y + j] == 0) arr[x + i][y + j] = 1;
 //            else arr[x + i][y + j] = 0;
 
