@@ -4,10 +4,12 @@
 
 #include <iostream>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
 queue<pair<int, int>> q;
+bool visited[200001] = {false};
 
 int bfs(int k) {
     int move[3] = {-1, 1, 2};
@@ -16,8 +18,10 @@ int bfs(int k) {
     while (!q.empty()) {
         int loc = q.front().first;
         int time = q.front().second;
+
         q.pop();
-        if (loc == k)return time;
+
+        if (loc == k) return time;
 
         for (int i = 0; i < 3; i++) {
             if (move[i] == 2) loc = loc * 2;
@@ -25,7 +29,11 @@ int bfs(int k) {
                 loc += move[i];
             }
 
-            q.push(pair<int, int>(loc, time + 1));
+
+            if (!visited[loc] && loc < k * 2 + 1) {
+                q.push(pair<int, int>(loc, time + 1));
+                visited[loc] = true;
+            }
 
         }
 
@@ -42,6 +50,7 @@ int main() {
     cin >> n >> k;
 
     q.push(pair<int, int>(n, 0));
+    visited[n] = true;
 
     cout << bfs(k);
 
