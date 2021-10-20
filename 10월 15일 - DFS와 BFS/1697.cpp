@@ -19,23 +19,23 @@ int bfs(int k) {
         int loc = q.front().first;
         int time = q.front().second;
 
-        q.pop();
 
         if (loc == k) return time;
 
         for (int i = 0; i < 3; i++) {
-            if (move[i] == 2) loc = loc * 2;
-            else {
-                loc += move[i];
-            }
+            if (i == 0) loc++;
+            if (i == 1) loc--;
+            if (i == 2) loc *= 2;
 
-
-            if (!visited[loc] && loc < k * 2 + 1) {
+            if (!visited[loc] && loc < k * 2 + 1 && loc >= 0) {
                 q.push(pair<int, int>(loc, time + 1));
                 visited[loc] = true;
             }
 
+            loc = q.front().first;
+
         }
+        q.pop();
 
 
     }
