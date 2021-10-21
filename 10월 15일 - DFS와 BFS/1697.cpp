@@ -9,36 +9,35 @@
 using namespace std;
 
 queue<pair<int, int>> q;
-bool visited[200001] = {false};
+bool visited[100002] = {false};
 
 int bfs(int k) {
-    int move[3] = {-1, 1, 2};
+//    int move[3] = {-1, 1, 2};
 
 
     while (!q.empty()) {
         int loc = q.front().first;
         int time = q.front().second;
-
-
+        q.pop();
         if (loc == k) return time;
 
         for (int i = 0; i < 3; i++) {
-            if (i == 0) loc++;
-            if (i == 1) loc--;
-            if (i == 2) loc *= 2;
+            int next_loc;
+            if (i == 0) next_loc = loc + 1;
+            if (i == 1) next_loc = loc - 1;
+            if (i == 2) next_loc = loc * 2;
 
-            if (!visited[loc] && loc < k * 2 + 1 && loc >= 0) {
-                q.push(pair<int, int>(loc, time + 1));
-                visited[loc] = true;
+            if (!visited[next_loc] && next_loc <= k + 1 && next_loc >= 0) { //k+1 이면 -1로 k가 될 수 있지만, 그 이상은 가망이 없음
+                q.push(pair<int, int>(next_loc, time + 1));
+                visited[next_loc] = true;
             }
 
-            loc = q.front().first;
 
         }
-        q.pop();
 
 
     }
+    return 0;
 
 }
 
