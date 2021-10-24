@@ -33,11 +33,17 @@ void conquer(int size, int row, int col) {
  */
     int sub_size = size / 2;
 
+    int _row[4] = {0, 0, sub_size, sub_size};
+    int _col[4] = {0, sub_size, 0, sub_size};
+
+    for (int i = 0; i < 4; i++) {
+        combine[i] = input[row + _row[i]][col + _col[i]];
+    }
     //
-    combine[0] = input[row][col];
-    combine[1] = input[row][col + sub_size];
-    combine[2] = input[row + sub_size][col];
-    combine[3] = input[row + sub_size][col + sub_size];
+//    combine[0] = input[row][col];
+//    combine[1] = input[row][col + sub_size];
+//    combine[2] = input[row + sub_size][col];
+//    combine[3] = input[row + sub_size][col + sub_size];
 
     //정렬
     sort(combine.begin(), combine.end(), greater<int>());
