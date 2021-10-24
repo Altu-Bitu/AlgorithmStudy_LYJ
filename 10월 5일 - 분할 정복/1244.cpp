@@ -13,11 +13,14 @@ vector<int> lights;
 
 void turnBoy(int a, int n) {
 
-    for (int i = 1; i <= n; i++) {
-        if (i % a == 0) {//idx가 a의 배수
-            lights[i] = !lights[i];
-        }
-    }
+    for (int i = a; i <= n; i += a) // a의 배수 검사
+        lights[i] = !lights[i];
+
+//    for (int i = 1; i <= n; i++) {
+//        if (i % a == 0) {//idx가 a의 배수
+//            lights[i] = !lights[i];
+//        }
+//    }
 }
 
 
