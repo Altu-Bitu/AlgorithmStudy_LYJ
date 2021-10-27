@@ -10,7 +10,7 @@
 #include <algorithm>
 
 using namespace std;
-vector<vector<int>> v; //각이닝별 타자의 결과
+vector <vector<int>> v; //각이닝별 타자의 결과
 deque<int> dq; //1~9까지 타자의 순서
 
 vector<bool> state(5);// 1,2,3,4 루 상태 (0은 타석)이라고 가정
@@ -42,16 +42,25 @@ void homeRun() {
 //안타,2루타,3루타
 void nHits(int n) {// n=1 : 안타, n=2 :2루타
 
-    for (int i = 1; i <= n; i++) {//n회반복
-        for (int i = 3; i >= 0; i--) {
-            if (state[i]) {
-                state[i + 1] = true;//한칸씩 미루기
-                state[i] = false;
-            }
+    for (int i = 3; i >= 0; i--) { //베이스 3개 (홈과 가까운 베이스 부터 주자가 이동해야함 )
+        if (state[i]) {//해당 베이스에 주자가 있음(true)
+            if (i + n >= 4) score++; // n칸 전진 시 홈에 들어온다면 -> 점수 증가
+            else state[i + n] = true; // n칸 전진해도 홈에 못들어오면 -> 해당 위치에 주자 배치
         }
-        state[0] = false;
-        is_score(); //한루씩 전부 전진하면 1점득점했는지 체크
+        state[i] = false; // 이동했으니 해당 칸은
     }
+
+
+//    for (int i = 1; i <= n; i++) {//n회반복
+//        for (int i = 3; i >= 0; i--) {
+//            if (state[i]) {
+//                state[i + 1] = true;//한칸씩 미루기
+//                state[i] = false;
+//            }
+//        }
+//        state[0] = false;
+//        is_score(); //한루씩 전부 전진하면 1점득점했는지 체크
+//    }
 }
 
 void calScore(int n) {
