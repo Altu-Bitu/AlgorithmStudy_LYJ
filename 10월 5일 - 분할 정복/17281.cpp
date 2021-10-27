@@ -10,14 +10,16 @@
 #include <algorithm>
 
 using namespace std;
-vector <vector<int>> v; //각이닝별 타자의 결과
-deque<int> dq; //1~9까지 타자의 순서
+vector<vector<int>> v; //각이닝별 타자의 결과
+//deque<int> dq; //1~9까지 타자의 순서
+
 
 vector<bool> state(5);// 1,2,3,4 루 상태 (0은 타석)이라고 가정
 int score = 0;
 int out_cnt;
 int max_score = -1;
-vector<int> check = {2, 3, 4, 5, 6, 7, 8, 9};//1번선수 제외
+vector<int> check = {2, 3, 4, 5, 6, 7, 8, 9};//1번선수 제외 순열 제작 용도
+vector<int> round;//타자의 순서
 
 //홈으로 들어왔는지
 void is_score() {
@@ -47,7 +49,7 @@ void nHits(int n) {// n=1 : 안타, n=2 :2루타
             if (i + n >= 4) score++; // n칸 전진 시 홈에 들어온다면 -> 점수 증가
             else state[i + n] = true; // n칸 전진해도 홈에 못들어오면 -> 해당 위치에 주자 배치
         }
-        state[i] = false; // 이동했으니 해당 칸은
+        state[i] = false; // 이동했으니 해당 칸은 주자가 없음 or 원래 없음
     }
 
 
@@ -66,17 +68,19 @@ void nHits(int n) {// n=1 : 안타, n=2 :2루타
 void calScore(int n) {
 
     //점수를 계산
+    int idx = 0;
     for (int i = 0; i < n; i++) { //이닝
         while (out_cnt < 3) {
             //차례올떄마다 타자를 타석에 세우는거 해야함
             state[0] = true;
 
             //지금 순서 타자의 결과 hit에 저장
-            int hit = v[i][dq.front()];
+            int hit = v[i][round[idx]];
 
             //친 사람은 맨 뒤로 보내기
-            dq.push_back(dq.front());
-            dq.pop_front();
+            idx = (idx + 1) % 9; // idx증사키기고 0~8번을 넘으면 처음으로
+//            dq.push_back(dq.front());
+//            dq.pop_front();
 
             if (hit == 0) out_cnt++;
             else if (hit == 4) homeRun();
@@ -116,17 +120,9 @@ int main() {
 
     do {
 
-        int i = 0;
-        bool flag = false;
-        while (i < 8) {
-            if (i == 3 && flag == false) {
-                dq.push_back(1);
-                flag = true;
-            }
-            dq.push_back(check[i]);
-            i++;
-        }
-
+        round.assign(check.begin(), check.end()); //배열복사
+        round.insert(round.begin() + 3, 1); // 4번쨰 선수를 1번으로
+        
 
         //이번 순서로 점수를 계산
         calScore(n);
@@ -134,7 +130,7 @@ int main() {
         //초기화
         if (score > max_score) max_score = score; //최고점 갱신
         score = 0;
-        dq.clear();
+//        dq.clear();
 
 
     } while (next_permutation(check.begin(), check.end())); //모든 순열을 구함
