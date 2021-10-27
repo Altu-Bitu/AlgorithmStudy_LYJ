@@ -8,12 +8,12 @@
 #include <algorithm>
 
 using namespace std;
-typedef vector<vector<int>> matrix;
+typedef vector <vector<int>> matrix;
 matrix input;
 
 
-//conquer : 2번째로 큰 수를 반환
-void conquer(int size, int row, int col) {
+//combine : 2번째로 큰 수를 반환
+void combine(int size, int row, int col) {
 
     vector<int> combine = {0, 0, 0, 0};
 
@@ -57,13 +57,14 @@ void conquer(int size, int row, int col) {
 void divide(int size, int row, int col) {
 
     //2개인 경우 구해서 리턴
+    // conquer
     if (size == 2) {
-        conquer(size, row, col);
+        combine(size, row, col);
         return;
     }
 
 
-    //divide & combine?
+    //divide & combine
     int sub_size = size / 2;
     //(0, 0), (0, ss), (ss, 0), (ss, ss)
     for (int i = 0; i <= sub_size; i += sub_size) {
@@ -71,7 +72,7 @@ void divide(int size, int row, int col) {
             divide(sub_size, row + i, col + j); //subsize로 구하기
         }
     }
-    conquer(size, row, col);//sub_size*2 (size)로 돌아와서 구하기
+    combine(size, row, col);//sub_size*2 (size)로 돌아와서 구하기
 }
 
 
