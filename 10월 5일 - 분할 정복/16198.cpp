@@ -104,17 +104,17 @@ using namespace std;
 vector<int> w;
 int ans;
 
-void backtracking(int sum) {
+void backtracking(int sum) { //지금까지의 합
     if (w.size() == 2) { //에너지 구슬이 2개 -> 더 이상 고를 수 없음
-        ans = max(ans, sum);
+        ans = max(ans, sum); //최댓값이 바뀌면 갱신
         return;
     }
-    for (int i = 1; i < w.size() - 1; i++) { //처음과 마지막 선택 불가이므로
-        int temp_w = w[i];
-        int sum_w = w[i - 1] * w[i + 1];
-        w.erase(w.begin() + i);
-        backtracking(sum + sum_w);
-        w.insert(w.begin() + i, temp_w);
+    for (int i = 1; i < w.size() - 1; i++) { //처음과 마지막 선택 불가이므로 (0, ㅁㅏ지막 제외)
+        int temp_w = w[i]; //x번째 구슬
+        int sum_w = w[i - 1] * w[i + 1]; //모을 수 있는 에너지
+        w.erase(w.begin() + i); //x번째 구슬 제거
+        backtracking(sum + sum_w); // 새지지금 까지 합 + 로 얻은 에너
+        w.insert(w.begin() + i, temp_w);//새로운 가지를 탐색하기 위해서 제거했던 구슬을 다시 넣어줌 (원상복귀)
     }
 }
 
@@ -132,7 +132,7 @@ int main() {
         cin >> w[i];
 
     //연산
-    backtracking(0);
+    backtracking(0); // 매개변수 : 점수합
 
     //출력
     cout << ans << '\n';
