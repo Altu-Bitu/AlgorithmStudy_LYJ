@@ -29,37 +29,17 @@
 
 using namespace std;
 
-int crossStep(vector<int> stones, int m) { //사람 수가 m명일 때, 연속되는 0의 수의 최대값 반환
+int crossStep(vector<int> &stones, int m) { //사람 수가 m명일 때, 한번에 건너 뛰어야만 하는 디딤돌 칸 수의 최대
 
-    int length;
-    int max = 0;
-
-    int size = stones.size(), left = 0, right = 0;
-    while (left <= right && right < size) {
-
-        if (stones[right] <= m) {
-            right++;
-        } else if (stones[right] > m) {
-            left++;
-            length = right - left;
-            if (length > max) {
-                max = length;
-//                cout << "최대 값 갱신 : " << max << " 이 경우 left :" << left << " right : " << right << "\n";
-            }
-            left = right;
-            right++;
+    int dist = 1, prev = -1; //건너뛴 칸(최소1), 이전에 밟은 디딤돌 번호
+    for (int i = 0; i < stones.size(); i++) { //모든 디딤돌을 검사
+        if (stones[i] >= m) { //밟을 수 있음
+            dist = max(dist, i - prev); //"지금 칸 - 마지막으로 밟은 칸 " 이 최대면 갱신
+            prev = i;//마지막으로 밟은 칸 갱신
         }
-
-
     }
-    left++;
-    length = right - left;
-    if (length > max) {
-        max = length;
-//        cout << "최대 값 갱신 : " << max << " 이 경우 left :" << left << " right : " << right << "\n";
-    }
-
-    return max;
+    dist = max(dist, (int) stones.size() - prev); //맨끝까지 건넜을 떄 비교해줌
+    return dist;
 
 }
 
@@ -100,7 +80,11 @@ int solution(vector<int> stones, int k) {
      * 건널 수 있는 인원의 수
      *
      */
-    answer = upperSearch(0, *max_element(stones.begin(), stones.end()), k, stones);
+
+    //left : 건널 수 있는 최소 인원 수(k>=1)
+    //right : 건널 수 있는 최대 인원 수
+    answer = upperSearch(1, *max_element(stones.begin(), stones.end()), k,
+                         stones);
 
     /*
      * 한번 지나갈 떄 마다 1씩 까이니까
