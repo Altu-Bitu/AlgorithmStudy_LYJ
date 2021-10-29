@@ -63,14 +63,19 @@ int main() {
     cin >> n >> m;
 
 
+    long long min = 1e9 + 1;
+    long long max = 0;
     //입국 심사 걸리는 시간
     t.assign(n, 0);
     for (int i = 0; i < n; i++) {
         cin >> t[i];
+        if (t[i] < min) min = t[i];
+        if (t[i] > max) max = t[i];
     }
 
-    long long min = *min_element(t.begin(), t.end());
-    long long max = *max_element(t.begin(), t.end());
+//    O(n)이 걸리는 연산! 사용하지 않는 것이 좋다
+//    long long min = *min_element(t.begin(), t.end());
+//    long long max = *max_element(t.begin(), t.end());
 
     //min : 아무리 적어도 제일 빨리처리하는 사람의 초보다 빨라질 순없는
     //max : 제일오래걸리는 사람한테 m명이 다 받았을 경우?
