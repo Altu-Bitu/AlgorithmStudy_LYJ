@@ -26,23 +26,15 @@ int m, n;
 //주어진 과자 길이를 모두에게 나눠줄 수 있어야함
 int divide(int k) { // k : 나눠줄 과자의 길이,
 
-
     int ans = 0;
 
-    int i = 0;
-    while (i < n) { //모든 과자를 다 보기
-        int len = sticks[i];//현재 과자의 길이
+    for (int i = 0; i < n; i++) { //모든 과자에 대해서
+        int len = sticks[i]; // 현재 과자의 길이
 
-        if (len > k) { // 과자길이가 기준 보다 긴경우
-            while (len >= k) {//자를 수 있을 떄 까지 자르기
-                len -= k;
-                ans++;
-            }
-        } else if (len == k) {//딱맞으면 그냥 쓰기
-            ans++;
+        if (len >= k) { // 자를 수 있음(기준 길이보다 길거나 같음)
+            ans += len / k;//나눈몫이 나올 수 있는 과자의 수
         }
 
-        i++;//다음과자
     }
 
 
