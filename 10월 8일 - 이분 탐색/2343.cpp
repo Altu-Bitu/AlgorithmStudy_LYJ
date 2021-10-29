@@ -79,17 +79,19 @@ int main() {
 
     //강의 분 수 입력받기
     int sum = 0;
+    int max = 0;
     videos.assign(n, 0);
     for (int i = 0; i < n; i++) {
         cin >> videos[i];
         sum += videos[i];
+        if (videos[i] > max) max = videos[i];
     }
 
     //정렬 -> 하면 안됨 강의 순서 바뀔 수 없음 !
 
     //블루레이 크기의 최소 : 가장 긴 영상의 길이
     //블루레이 크기의 최대 : 모든 전체 합?
-    cout << lowerSearch(*max_element(videos.begin(), videos.end()), sum, n);
+    cout << lowerSearch(max, sum, n);
 
 }
 
