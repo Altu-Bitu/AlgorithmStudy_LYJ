@@ -1,5 +1,5 @@
 //
-// 20922번 - 겹치는 건 싫어 
+// 20922번 - 겹치는 건 싫어
 //
 
 #include <iostream>
@@ -31,53 +31,35 @@ int main() {
     int max_cnt = 100001;//절대 나올일 없는 숫자
 
     while (left <= right && right < v.size()) {
-//        cout << "=================================================================\n";
-//        cout << "STEP : " << cnt << "\n";
-//        cnt++;
 
         int num;
 
         if (flag) {//left가 움직인 경우 ->백스탭
-            num = v[left - 1];
+            num = v[left - 1]; //주의 : 이전 수를 없앤 것임
             m[num]--;
             size--;
-
-//            cout << "move LEFT now num : " << num << "\n";
-//            cout << "m[num] : " << m[num] << "\n";
-//            cout << "size : " << size << "\n";
-
 
         } else {//right가 움직인 경우 -> 전진
             num = v[right];
             m[num]++;
             size++;
 
-//            cout << "move RIGHT now num : " << num << "\n";
-//            cout << "m[nums] : " << m[num] << "\n";
-//            cout << "size : " << size << "\n";
-
             if (m[num] > k) {
-//                cout << "k를 초과함\n";
-                max_cnt = num;
+                max_cnt = num; // 가장 등장 횟수가 많은 수를 저장해둠
             }
 
 
         }
 
-//        cout << "max cnt : " << max_cnt << "\n";
-//        cout << "m[max cnt] : " << m[max_cnt] << "\n";
 
-        if (m[max_cnt] > k) { //한계도달 ( right쪽  그만 탐색)
-//            cout << "now moving to LEFT\n";
+        if (m[max_cnt] > k) { //한계도달 ( right쪽  그만 탐색하고 왼쪽으로 줄여나가기 )
             flag = true;
             if (size > max) {
-                max = size - 1;
-//                cout << "답 변경 : " << max << "\n";
+                max = size - 1; //길이가 더 긴 경우 답 갱신
             }
             left++;
 
         } else {//한계 미도달 (right쪽으로 계속 탐색)
-//            cout << "now moving to RIGHT\n";
             flag = false;
             right++;
         }
@@ -85,9 +67,8 @@ int main() {
 
     }
 
-    if (size > max) {
+    if (size > max) { //마지막 체크
         max = size;
-//        cout << "답 변경 : " << max << "\n";
     }
 
     cout << max;
