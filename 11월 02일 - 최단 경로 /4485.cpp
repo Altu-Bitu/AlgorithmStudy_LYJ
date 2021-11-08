@@ -63,11 +63,43 @@ vector<vector<ii>> makeList(int n) {
 const int INF = 1e5 * 1.5; //최대 V-1개의 간선을 지나게 됨
 
 //다익스트라
+// pq는 (거리,정점)이고 graph는 (정점,거리)이다 .. 주의
 vector<int> dijkstra(int vertex, int start, vector<vector<ii>> &graph) {
-    vector<int> dist(vertex + 1, INF);
-    priority_queue<ii, vector<ii>, greater<>> pq; //first : 시작점으로부터의 거리, second : 정점
 
+    priority_queue<ii, vector<ii>, greater<>> pq; //작은 순서대로 정렬 -> (start ~ vertex 거리 ,vertex )
+    vector<int> dist(vertex + 1, INF);//답으로 내보낼 배열 (각 정점별 최소거리)
+
+    //시작값 큐에 넣기
+    dist[start] = 0; //start to start : 0
+    pq.push({0, start});
+
+
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        int w = pq.top().first; // start -> u 까지의 weight
+        pq.pop();
+
+
+        if (w > dist[u]) continue; //dist[u]가 이미 w보다 작게 설정되었다는 것은 이미 검사된 정점이라는 의미 -> pass
+
+        for (int i = 0; i < graph[u].size(); i++) { //꺼낸 정점 u와 연결된 정점들 탐색
+            int node = graph[u][i].first; // u와 연결된 정점
+            int weight = w + graph[u][i].second;// start -> u(w) + u -> node(graph[u][i]) = start -> node
+
+            //새로 구한 값이 원래 저장되어 있는 값보다 작으면 갱신
+            if (weight < dist[node]) {
+                dist[node] = weight;
+                pq.push({weight, node});
+            }
+
+
+        }
+
+
+    }
     return dist;
+
+
 }
 
 
