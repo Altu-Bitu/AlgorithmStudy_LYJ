@@ -10,7 +10,16 @@ typedef long long ll;
 const int INF = 1e7 * 2;
 
 //플로이드-워셜
-void floydWarshall(int n, vector<vector<ll>> &graph) {
+void floydWarshall(int vertex, vector<vector<ll>> &graph) {
+    for (int i = 1; i <= vertex; i++) { //필수로 거쳐가야 하는 정점
+        for (int j = 1; j <= vertex; j++) { // 시작 정점
+            for (int k = 1; k <= vertex; k++) { // 도착 정점
+                int cost = graph[j][i] + graph[i][k]; // j->i->k
+                if (cost < graph[j][k])//원래 j->k로 가는 값보다 더 작으면 갱신
+                    graph[j][k] = cost;
+            }
+        }
+    }
 
 }
 
