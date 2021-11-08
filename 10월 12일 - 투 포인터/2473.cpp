@@ -16,23 +16,12 @@ using namespace std;
 vector<int> liquid;
 
 
-int main() {
+vector<int> findLiquid(int n) {
 
-    int n;
-    cin >> n;
-
-    liquid.assign(n, 0);
-    for (int i = 0; i < n; i++) {
-        cin >> liquid[i];
-    }
-
-    //정렬
-    sort(liquid.begin(), liquid.end());
-
-
+    vector<int> ans_arr(3, 0);
     int mid; //중앙 값 고정
     long long ans = 3 * 1e9 + 1; // 다 더하면 30억 ( + 1 하면 절대 넘을 일 없고 int범위는 넘어감 )
-    int ans1, ans2, ans3; //답을 저장할 것
+//    int ans1, ans2, ans3; //답을 저장할 것
     for (int i = 0; i < n - 2; i++) {
         mid = i;// 고정할 중앙 값 인덱스
 
@@ -50,14 +39,16 @@ int main() {
             if (abs(sum) < ans) { //더 작아지면 갱신(절댓값 필수)
 
                 ans = abs(sum);
-                ans1 = mid;
-                ans2 = left;
-                ans3 = right;
+                ans_arr[0] = mid;
+                ans_arr[1] = left;
+                ans_arr[2] = right;
             }
 
             if (sum == 0) {
-                cout << liquid[mid] << " " << liquid[left] << " " << liquid[right];//0인경우 그냥 종료
-                return 0;//이런식으로 멈추는게 안좋은 방법인가? (질문하기)
+                ans_arr[0] = mid;
+                ans_arr[1] = left;
+                ans_arr[2] = right;
+                return ans_arr;
             } else if (sum < 0) {
                 left++;
             } else if (sum > 0) {
@@ -69,7 +60,27 @@ int main() {
 
     }
 
-    cout << liquid[ans1] << " " << liquid[ans2] << " " << liquid[ans3];
+    return ans_arr;
+}
+
+
+int main() {
+
+    int n;
+    cin >> n;
+
+    liquid.assign(n, 0);
+    for (int i = 0; i < n; i++) {
+        cin >> liquid[i];
+    }
+
+    //정렬
+    sort(liquid.begin(), liquid.end());
+
+
+    vector<int> ans = findLiquid(n);
+
+    cout << liquid[ans[0]] << " " << liquid[ans[1]] << " " << liquid[ans[2]];
 
 
 }
