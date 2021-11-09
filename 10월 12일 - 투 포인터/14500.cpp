@@ -83,7 +83,7 @@ int main() {
         for (int j = 0; j < m; j++) {
             ans = max(ans, horn(i, j)); //보라색 블럭 처리 -> 보라색 블록중에서 나올 수 있는 최대값
 
-            //[i][j]를 시작으로 하는 (한붓그리기 가능한) 연속 4개의 합 
+            //[i][j]를 시작으로 하는 (한붓그리기 가능한) 연속 4개의 합
             int save = board[i][j];
             board[i][j] = 0; //방문 표시
             backtracking(i, j, 1, save); //나머지 모양 처리
