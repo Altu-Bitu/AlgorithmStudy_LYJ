@@ -9,25 +9,29 @@
 using namespace std;
 
 queue<pair<int, int>> q;
-bool visited[100002] = {false};
+bool visited[100001] = {false};
 
-int bfs(int k) {
-//    int move[3] = {-1, 1, 2};
+int bfs(int k, int n) {
+    visited[n] = true;
+    q.push(pair<int, int>(n, 0));
+    int move[3] = {-1, 1, 0};
 
+    int loc, time;
 
     while (!q.empty()) {
-        int loc = q.front().first;
-        int time = q.front().second;
+        loc = q.front().first;
+        time = q.front().second;
         q.pop();
-        if (loc == k) return time;
+
+        if (loc == k) break;
+        move[2] = loc;
 
         for (int i = 0; i < 3; i++) {
-            int next_loc;
-            if (i == 0) next_loc = loc + 1;
-            if (i == 1) next_loc = loc - 1;
-            if (i == 2) next_loc = loc * 2;
 
-            if (!visited[next_loc] && next_loc <= k + 1 && next_loc >= 0) { //k+1 이면 -1로 k가 될 수 있지만, 그 이상은 가망이 없음
+            int next_loc = loc + move[i];
+
+            if (next_loc <= 100000 && next_loc >= 0 &&
+                !visited[next_loc]) { //visited[next_loc]를 마지막에 써주지 않아서 OutOfBound였음
                 q.push(pair<int, int>(next_loc, time + 1));
                 visited[next_loc] = true;
             }
@@ -37,7 +41,7 @@ int bfs(int k) {
 
 
     }
-    return 0;
+    return time;
 
 }
 
@@ -48,9 +52,6 @@ int main() {
     int n, k;//수빈의 위치, 동생의 위치
     cin >> n >> k;
 
-    q.push(pair<int, int>(n, 0));
-    visited[n] = true;
-
-    cout << bfs(k);
+    cout << bfs(k, n);
 
 }
