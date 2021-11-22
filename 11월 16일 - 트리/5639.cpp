@@ -69,6 +69,6 @@ int main() {
         insert_node(root, num);//root를 기준으로 이진트리 만들기
     }
 
-    postorder(root);//후위 순회 
+    postorder(root);//후위 순회
 
 }
