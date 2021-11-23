@@ -56,8 +56,8 @@ int main() {
             int nr = rr + row[dir];
             int nc = rc + col[dir];
 
-            //범위 내에 있음 + 벽아님(0) + 청소이전
-            if (nr > 0 && nr < n - 1 && nc > 0 && nc < m - 1 && room[nr][rc] == 0 && !check[nr][nc]) {
+            //벽아님(0) + 청소이전 (방이 벽으로 둘러싸여 있으므로, 범위 검사 안해도 됨)
+            if (room[nr][rc] == 0 && !check[nr][nc]) {
                 //(2.a)해당 방향으로 회전
                 d = dir;
                 //전진
@@ -77,7 +77,7 @@ int main() {
             int nr = rr + row[(d + 2) % 4];
             int nc = rc + col[(d + 2) % 4];
             //2.c) 후진 가능
-            if (nr > 0 && nr < n - 1 && nc > 0 && nc < m - 1 && room[nr][nc] == 0) {
+            if (room[nr][nc] == 0) {
                 //해당 칸으로 이동 / 방향은 그대로니까 건들지 x
                 rr = nr;
                 rc = nc;
