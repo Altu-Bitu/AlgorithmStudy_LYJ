@@ -21,13 +21,16 @@ void makeTree(vector<vector<int>> &tree, int current, int parent, vector<vector<
 
 }
 
-void countSubtreeNodes(int current, vector<int> &size, vector<vector<int>> &tree) {
+//계산한 각 서브트리의 정점 수를 리턴
+int countSubtreeNodes(int current, vector<int> &size, vector<vector<int>> &tree) {
+
+    if (tree[current].size() == 0) return 1;// 기저조건 leaf node임 (자기 자신 1개 return)
 
     for (int i = 0; i < tree[current].size(); i++) {//연결된 자식들
-        int node = tree[current][i];
-        countSubtreeNodes(node, size, tree);
-        size[current] += size[node];
+        int node = tree[current][i];//current node에 연결된 자식들
+        size[current] += countSubtreeNodes(node, size, tree);//자식을 current node로 하여, 거기에 연결된 자식을 구함
     }
+    return size[current];
 
 }
 
@@ -56,12 +59,13 @@ int main() {
     vector<vector<int>> tree(n + 1, vector<int>());
     makeTree(tree, root, -1, graph);
 
+    // tree 잘 만들어졌는지 확인
 //    for (int i = 1; i <= n; i++) {
 //        cout << "[ " << i << " ] -> ";
 //        for (int j = 0; j < tree[i].size(); j++) {
 //            cout << tree[i][j] << " -> ";
 //        }
-//        cout << "\n";
+//        cout << "size : " << tree[i].size() << "\n";
 //    }
 
     //size[u] : u 정점으로 시작하는 서브트리의 수를 저장
