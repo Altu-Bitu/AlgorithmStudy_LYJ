@@ -35,15 +35,10 @@ int decode(string code, int len) {
 
 
     if (code[0] == '0') return 0; //0으로 시작하면 변경이 불가
-    else if (len == 2 && code[1] == '0') {//2자리 중에는 10,20이 아니면 불가
-        string str = code.substr(0, 2);
-        if (str != "20" && str != "10") return 0;
-        else return 1;//10,20인 경우
-    } else {
+    else {
 
         //1칸 이전, 2칸 이전을 탐색해야할 일이 존재하므로, 미리 채워둠 -> string 내 i번째에 대한 결과를 dp[i+1]에 저장함
-        dp[0] = 1;
-        dp[1] = 1;
+        dp[0] = dp[1] = 1;
 
         for (int i = 1; i < len; i++) {
 
