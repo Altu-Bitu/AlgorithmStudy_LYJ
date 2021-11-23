@@ -2,14 +2,6 @@
 // 2011번 - 암호코드
 //
 
-/*
- * 우선 경우의 수를 하나씩 찾는 풀이를 생각하셨다면 입력 범위를 다시 봅시다!
- * 이전에 구한 경우의 수의 해답을 활용해야 해요.
- * 또한 숫자를 검사할 때, 항상 1 ~ 26사이인지와 알파벳으로 만들 수 있는 수인지 확인하는 것이 중요해요.
- */
-
-//41%에러
-
 #include <iostream>
 #include <vector>
 
@@ -27,22 +19,18 @@ int main() {
 
     int len = code.length();
 
-    //0으로 시작, 0으로 끝나는? 근데 10,20은 ㄱㅊ음..
-    if (code[0] == '0') cout << 0;
-    else if (len == 2 && code[1] == '0') {
-        int number = stoi(code.substr(0, 2));
-        if (number != 20 && number != 10) cout << "0";
-        else cout << "1";
+    if (code[0] == '0') cout << 0; //0으로 시작하면 변경이 불가
+    else if (len == 2 && code[1] == '0') {//2자리 중에는 10,20이 아니면 불가
+        string str = code.substr(0, 2);
+        if (str != "20" && str != "10") cout << "0";
+        else cout << "1";//10,20인 경우
     } else {
 
+        //1칸 이전, 2칸 이전을 탐색해야할 일이 존재하므로, 미리 채워둠 -> string 내 i번째에 대한 결과를 dp[i+1]에 저장함
         dp[0] = 1;
         dp[1] = 1;
-        if (stoi(code.substr(0, 2)) <= 26) {
-            if (stoi(code.substr(0, 2)) != 10 && stoi(code.substr(0, 2)) != 20)
-                dp[1] = 2;
-        }
 
-        for (int i = 2; i < len; i++) {
+        for (int i = 1; i < len; i++) {
             /*
              * 각 단계는
              * 1자리 or 2자리만 가능
@@ -63,21 +51,20 @@ int main() {
              *
              *
              */
-            int one = stoi(code.substr(i, 1));
-            int two = stoi(code.substr(i - 1, 2));
+            string one = code.substr(i, 1);
+            string two = code.substr(i - 1, 2);
 
-            cout << "one : " << one << " two: " << two << "\n";
 
-            if (one == 0) {//0일떄,
-                if (two != 10 && two != 20) {// 10이나 20이 아니면,
+            if (one == "0") {//0일떄,
+                if (two != "10" && two != "20") {// 10이나 20이 아니면,
                     cout << 0;//암호화 불가능한 거
                     return 0;//종료
                 }
-                dp[i] = dp[i - 2]; //
+                dp[i + 1] = dp[i - 1]; //10,20-> 암호화 가능 (방법이 1가지이므로 2번째 전과 동일하다)
             } else {
-                dp[i] = dp[i - 1]; //자기자신(한글자) + 직전까지꺼
-                if (two <= 26 && two >= 10) {
-                    dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000;//
+                dp[i + 1] = dp[i]; //자기자신(한글자) + 직전까지꺼
+                if (two <= "26" && two >= "10") { //10~26사이라면, 총 2가지 방법으로 암호화가 가능 (1번째 전, 2번째 전)
+                    dp[i + 1] = (dp[i] + dp[i - 1]) % 1000000; // %1000000이 없으면 중간에 초과하는 에러
                 }
 
             }
@@ -86,7 +73,7 @@ int main() {
         }
 
 
-        cout << dp[len - 1] % 1000000;
+        cout << dp[len] % 1000000; //len-1이 아닌 len임에 주의
     }
 
 
