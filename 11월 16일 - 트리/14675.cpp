@@ -8,6 +8,17 @@
 
 using namespace std;
 
+vector<int> v;
+
+string isDivide(int type, int vertex) {
+    if (type == 2) return "yes";
+    else {
+        if (v[vertex] > 1) return "yes"; //연결된 정점이 2개 이상이면 단절점
+        else return "no";
+    }
+}
+
+
 int main() {
     cin.tie(NULL); //cin , cout의 묶음을 풀어줌
     ios_base::sync_with_stdio(false); //c, c++버퍼를 분리
@@ -17,7 +28,6 @@ int main() {
 
     cin >> n;
 
-    vector<int> v;
     v.assign(n + 1, 0); //연결된 vertex수
 
     int a, b;
@@ -33,11 +43,7 @@ int main() {
     while (m--) {
         cin >> a >> b;
 
-        if (a == 2) cout << "yes\n";//모든 간선은 단절선
-        else {
-            if (v[b] > 1) cout << "yes\n"; //연결된 정점이 2개 이상이면 단절점
-            else cout << "no\n";
-        }
+        cout << isDivide(a, b) << "\n";
 
 
     }
