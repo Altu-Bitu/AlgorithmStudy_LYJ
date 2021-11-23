@@ -20,7 +20,7 @@ int main() {
         cin >> v[i];
     }
 
-    int max = 0;
+    int max_value = 0;//변수명으로 max는 사용하지 x!
 
     map<int, int> m; //등장 수, 등장 횟수
 
@@ -35,15 +35,15 @@ int main() {
             left++;
         } else {//한계 미도달 (right쪽으로 계속 탐색)
             m[v[right]]++;
-            if (right - left + 1 > max) {
-                max = right - left + 1; //길이가 더 긴 경우 답 갱신
+            if (right - left + 1 > max_value) {
+                max_value = right - left + 1; //길이가 더 긴 경우 답 갱신
             }
             right++; //right를 증가시키고 종료
         }
     }
 
 
-    cout << max;
+    cout << max_value;
 
 
 }
