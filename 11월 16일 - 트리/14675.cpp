@@ -11,11 +11,12 @@ using namespace std;
 vector<int> v;
 
 string isDivide(int type, int vertex) {
-    if (type == 2) return "yes";
-    else {
-        if (v[vertex] > 1) return "yes"; //연결된 정점이 2개 이상이면 단절점
-        else return "no";
-    }
+    if (type == 2) return "yes";//여기서 type == 2는 다 사라짐
+
+    //여기 도달하면 어쩌피 type==1
+    if (v[vertex] > 1)return "yes";//연결된 정점이 2개 이상이면 단절점
+
+    return "no";
 }
 
 
