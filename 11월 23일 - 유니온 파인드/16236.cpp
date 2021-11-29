@@ -57,7 +57,7 @@ int bfs(int x, int y, int size, int n, vector<vector<bool>> &visited) {//상어�
             //범위 내에 있음 && 상어의 크기보다 작거나 같아함 && 가본적 없는 곳
             if (board[nx][ny] > -1 && board[nx][ny] <= size && record[nx][ny] <= 0) {
 
-                cout << "방문 했음\n";
+//                cout << "방문 했음\n";
 
                 record[nx][ny] = record[x][y] + 1; //방문하기
                 cout << "size : " << size << "\n";
@@ -71,8 +71,6 @@ int bfs(int x, int y, int size, int n, vector<vector<bool>> &visited) {//상어�
                     tmp_xx = nx;
                     tmp_yy = ny;
                     visited[nx][ny] = true;//먹었다고 표시하기
-//                    m[board[nx][ny]]--;//해당 칸의 크기를 가진 물고기의 수 감소
-//                    board[nx][ny] = 0;//해당 칸의 물고기 제거
 
                     return record[nx][ny] - 1; //1부터 시작해서 -1해줘야함
 
@@ -133,7 +131,7 @@ int main() {
             if (i->first < size) fish += i->second; //물고기의 크기가 size보다 작으면, 물고기의 수를 더함
         }
 
-        cout << "총 물고기의 수 : " << fish << "\n";
+//        cout << "총 물고기의 수 : " << fish << "\n";
         if (fish <= 0)break; //먹을 수 있는 물고기의 수가 0이하면, 종료
 
         //방문 여부 (먹을 수 있는 물고기 중에 먹은거 체크)
@@ -226,7 +224,7 @@ int main() {
         }
     }
 
-    cout << "답 " << time;
+    cout << time;
 
 
 }
