@@ -4,8 +4,7 @@
 
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <map>
+
 
 using namespace std;
 
@@ -27,11 +26,12 @@ void unionInput(int x, int y) {
     int yp = findParent(y);
 
 
-    if (xp == yp)
-        return;
+    if (truth[x] || truth[y] || truth[xp] || truth[yp]) {//한명이라도 진실을 알면
+        truth[x] = truth[y] = truth[xp] = truth[yp] = true;//모두 진실을 알게됨
+    }
 
-    if (truth[x] || truth[y]) {//둘중에 한명이라도 진실을 알면
-        truth[xp] = truth[yp] = true;//부모도 진실을 알게됨
+    if (xp == yp) {
+        return;
     }
 
 
@@ -54,7 +54,7 @@ int main() {
     int n, m; //사람의 수, 파티의 수
     cin >> n >> m;
     parent.assign(n + 1, -1);//음수로 초기화
-    truth.assign(n + 1, false);
+    truth.assign(n + 1, false);//진실을 모르는 상태로 초기화
 
     int knower, a, b;
 
@@ -67,27 +67,52 @@ int main() {
 
 
     int num;
-    int k = 1;
-    int ans = m; //과장된 이야기를 할 수 있는 파티의 수
-    while (m--) {
+    vector<int> party;
+    party.assign(m, -1);
+
+
+    for (int i = 0; i < m; i++) {
         cin >> num;
         cin >> a;
-        if (truth[findParent(a)]) {//진실을 아는사람이 있으면
-            ans--;//과장된 이야기 불가능
-            
-        }
+        party[i] = a;//첫번째 참여자를 배열에 저장
 
         for (int i = 1; i < num; i++) {
             cin >> b;
-            unionInput(a, b);
-            if (truth[findParent(b)]) {
-                ans--;
-                cout << k << "파티\n";
-                break;
-            }
+            unionInput(a, b);//첫번째 참여자와 같은 그룹에 넣음
         }
-        k++;
+
     }
+
+// 파티에 참여한 첫번째 사람을 저장한 배열
+//    for (int i = 0; i < m; i++) {
+//        cout << party[i] << " ";
+//    }
+//
+//    cout << "\n";
+    int ans = 0;
+
+    for (int i = 0; i < m; i++) {
+        int node = party[i];//각 파티에 참여한 첫번째 사람
+//        cout << i << "번째 파티 첫번째 참여자 : " << node << "\n";
+//        cout << "그사람의 루트 " << findParent(node) << "\n";
+//        cout << "루트가 진실을 아는가? " << truth[findParent(node)] << "\n";
+        if (!truth[findParent(node)]) ans++;//그 사람 집합의 루트가 진실을 모르면 과장가능
+    }
+
+
+//    //진실을 아는지 여부
+//    for (int i = 1; i <= n; i++) {
+//        cout << truth[i] << " ";
+//    }
+//
+//    cout << "\n";
+//    //집합 잘 만들어졌는지
+//    for (int i = 1; i <= n; i++) {
+//        cout << parent[i] << " ";
+//    }
+
+//    cout << "\n";
+
 
     cout << ans;
 
