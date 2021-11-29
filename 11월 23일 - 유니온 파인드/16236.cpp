@@ -54,8 +54,8 @@ int bfs(int x, int y, int size, int n, vector<vector<bool>> &visited) {//상어�
             cout << " nx : " << nx << " ny : " << ny << "\n";
 
             //이동 가능한 칸의 조건
-            //범위 내에 있음 && 상어의 크기보다 작거나 같아함 && 방문한적 없음
-            if (board[nx][ny] > -1 && board[nx][ny] <= size && record[nx][ny] == 0) {
+            //범위 내에 있음 && 상어의 크기보다 작거나 같아함 && 가본적 없는 곳
+            if (board[nx][ny] > -1 && board[nx][ny] <= size && record[nx][ny] <= 0) {
 
                 cout << "방문 했음\n";
 
@@ -123,7 +123,7 @@ int main() {
     int tmp_size;//먹을 물고기의 크기
 
     int fish;//먹을 수 있는 물고기의 수
-
+    board[pos_x][pos_y] = 0;//최초 위치 없애줘야함
     while (true) {
         cout << "상어의 위치 와 상어의 크기 \n";
         cout << "pos_x : " << pos_x << " pos_y : " << pos_y << " size : " << size << "\n";
@@ -137,7 +137,17 @@ int main() {
         if (fish <= 0)break; //먹을 수 있는 물고기의 수가 0이하면, 종료
 
         //방문 여부 (먹을 수 있는 물고기 중에 먹은거 체크)
-        visited.assign(n + 2, vector<bool>(n + 2, false));
+        visited.assign(n + 2, vector<bool>(n + 2, false));//새로 시작할떄마다 초기화
+
+        cout << "visited\n";
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                cout << visited[i][j] << " ";
+            }
+            cout << "\n";
+        }
+
+
 
 
         while (fish--) {//먹을수 있는 물고기의 수만큼 반복
@@ -205,6 +215,14 @@ int main() {
             cout << "물고기랑 사이즈 수랑 똑같아짐\n";
             size++;//물고기를 먹어서 크기가 1커짐
             cnt = 0;
+        }
+
+        cout << "board\n";
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                cout << visited[i][j] << " ";
+            }
+            cout << "\n";
         }
     }
 
