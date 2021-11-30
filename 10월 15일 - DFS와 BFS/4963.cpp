@@ -2,6 +2,14 @@
 // 4963번 - 섬의 개수
 //
 
+/*
+ * 하드 코딩된 부분이 많음
+ * 1의 갯수를 찾는데 O(n^2)의 시간 복잡도가 소요!
+ *
+ * + visited 배열을 사용하지 않고, 섬(1)->바다(0)로 변경하면 효율적
+ * 4963_2 참고
+ */
+
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -45,6 +53,7 @@ int dfs(vector<vector<int>> map, int w, int h, int cnt) {
         while (!s.empty()) {
             int r = s.top().first;
             int c = s.top().second;
+            visited[r][c] = true;// 방문표시 -> dfs에서는 스택에서 빠져나왔을 때 방문표시
             s.pop();
 
             //상하좌우 대각선 차례로 방문
@@ -54,7 +63,6 @@ int dfs(vector<vector<int>> map, int w, int h, int cnt) {
 
                 if (!visited[nr][nc] && map[nr][nc] == 1) { //해당 지점이 1이며, 방문한적이 없을 떄
                     s.push(ii(nr, nc));//스택에 위치를 삽입
-                    visited[nr][nc] = true;// 방문표시
                     cnt--;// 1의 갯수 감소
                 }
 
