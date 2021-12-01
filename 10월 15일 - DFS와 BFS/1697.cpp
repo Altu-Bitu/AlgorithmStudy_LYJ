@@ -6,10 +6,11 @@
 #include <queue>
 #include <vector>
 
+#define MAXVALUE 100001
 using namespace std;
 
 queue<pair<int, int>> q;
-bool visited[100001] = {false};
+bool visited[MAXVALUE] = {false};
 
 int bfs(int k, int n) {
     visited[n] = true;
@@ -30,7 +31,7 @@ int bfs(int k, int n) {
 
             int next_loc = loc + move[i];
 
-            if (next_loc <= 100000 && next_loc >= 0 &&
+            if (next_loc < MAXVALUE && next_loc >= 0 &&
                 !visited[next_loc]) { //visited[next_loc]를 마지막에 써주지 않아서 OutOfBound였음
                 q.push(pair<int, int>(next_loc, time + 1));
                 visited[next_loc] = true;
