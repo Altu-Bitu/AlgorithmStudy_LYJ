@@ -68,7 +68,7 @@ int main() {
             cout << "NO";
             return 0;
         }
-        from = to;
+//        from = to; 연결되어 있는 루트에서 판단하는 것이므로 연결되어 있다면 부모는 모두 같아서 굳이 안해줘도됨 
     }
 
     cout << "YES";
