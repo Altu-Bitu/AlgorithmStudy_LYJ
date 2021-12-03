@@ -26,8 +26,9 @@ void unionInput(int x, int y) {
     int yp = findParent(y);
 
 
-    if (truth[x] || truth[y] || truth[xp] || truth[yp]) {//한명이라도 진실을 알면
-        truth[x] = truth[y] = truth[xp] = truth[yp] = true;//모두 진실을 알게됨
+    //루트 정점에 접근해서 검사하기 때문에 루트 정점으로만 다루기
+    if (truth[xp] || truth[yp]) {//한명이라도 진실을 알면
+        truth[xp] = truth[yp] = true;//모두 진실을 알게됨
     }
 
     if (xp == yp) {
