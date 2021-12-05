@@ -9,7 +9,7 @@
 
 using namespace std;
 typedef tuple<int, int, int> tp;
-
+typedef long long ll;
 vector<int> parent;
 
 /*
@@ -44,10 +44,11 @@ bool unionInput(int x, int y) {
 
 }
 
-int kruskal(int vertex, priority_queue<tp, vector<tp>, greater<>> &pq) {
+ll kruskal(int vertex, priority_queue<tp, vector<tp>, greater<>> &pq) {
 
-    int cnt = 0, sum = 0;//사용한 edge수, MST합
-    while (!pq.empty()) {//최소 edge의 수 만큼
+    int cnt = 0;//사용한 edge의 수
+    ll sum = 0;
+    while (!pq.empty()) {
 
         int from = get<1>(pq.top());
         int to = get<2>(pq.top());
@@ -64,7 +65,8 @@ int kruskal(int vertex, priority_queue<tp, vector<tp>, greater<>> &pq) {
 
     }
 
-    return -1; //MST 합
+    return -1;//edge를 다 사용했는데, v-1개에 도달하지 못했으면, 연결x
+
 
 }
 
@@ -79,7 +81,7 @@ int main() {
     priority_queue<tp, vector<tp>, greater<>> pq; //priority queue
 
 
-    int total = 0;
+    ll total = 0;
 
     int from, to, cost;
     while (m--) {
@@ -89,8 +91,7 @@ int main() {
     }
 
 
-    int save = kruskal(n, pq);
-
+    ll save = kruskal(n, pq);
 
     if (save == -1) {
         cout << -1;
