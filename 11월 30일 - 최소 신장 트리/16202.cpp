@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <queue>
 #include <vector>
 #include <tuple>
 
@@ -53,16 +52,12 @@ pair<int, int> kruskal(int v, vector<tp> &pq) {
         int from = get<1>(pq[i]);
         int to = get<2>(pq[i]);
 
-//        cout << i << "번째 턴" << weight << " " << from << " " << to << "\n";
 
         if (unionInput(from, to)) {
-//            cout << "합격\n";
             cnt++;
             ans.second += weight;
-            if (cnt == 1) ans.first = weight;//몇번째 간선이었는지
+            if (cnt == 1) ans.first = weight;//제일 작은 값이 몇번째 간선이었는지
         }
-
-//        cout << "============\n";
 
         if (cnt == v - 1) return ans;
 
@@ -78,30 +73,22 @@ int main() {
     int n, m, k;
     cin >> n >> m >> k;
 
-
-    priority_queue<tp, vector<tp>, greater<>> pq;
-
     vector<tp> input;
 
     int a, b;
     for (int i = 1; i <= m; i++) {
         cin >> a >> b;
-        input.push_back({i, a, b});
+        input.push_back({i, a, b});//cost가 순서대로라 pq사용하지 않음
     }
 
 
     while (k--) {
-//
-//        for (int i = 0; i < input.size(); i++) {
-//            cout << get<0>(input[i]) << " " << get<1>(input[i]) << " " << get<2>(input[i]) << "\n";
-//        }
 
 
-//        cout << "============\n";
-
-        parent.assign(n + 1, -1);
+        parent.assign(n + 1, -1);//초기화
         pair<int, int> res = kruskal(n, input);
 
+        //최소 신장 트리를 만들 수 없을 때 연속으로 0을 출력
         if (res.first == -1 && res.second == -1) {
             cout << 0 << " ";
             while (k--) {
@@ -114,6 +101,7 @@ int main() {
         //MST값 출력
         cout << res.second << " ";
 
+        //간선하나 제거
         for (int i = 0; i < input.size(); i++) {
             int weight = get<0>(input[i]);
             if (weight == res.first) {
