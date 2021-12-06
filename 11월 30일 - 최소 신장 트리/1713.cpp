@@ -83,7 +83,6 @@ int main() {
         if (vote[pick].first != 0) {
 //            cout << pick << "은 이미 존재하는 후보입니다.\n";
             vote[pick].first++;
-            cnt++;
 
             continue;
         }
