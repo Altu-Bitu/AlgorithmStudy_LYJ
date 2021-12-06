@@ -44,7 +44,7 @@ bool unionInput(int x, int y) {
 
 }
 
-ll kruskal(int vertex, priority_queue<tp, vector<tp>, greater<>> &pq) {
+ll kruskal(int vertex, ll total, priority_queue<tp, vector<tp>, greater<>> &pq) {
 
     int cnt = 0;//사용한 edge의 수
     ll sum = 0;
@@ -61,7 +61,7 @@ ll kruskal(int vertex, priority_queue<tp, vector<tp>, greater<>> &pq) {
         }
 
 
-        if (cnt == vertex - 1) return sum;
+        if (cnt == vertex - 1) return total - sum;
 
     }
 
@@ -91,13 +91,8 @@ int main() {
     }
 
 
-    ll save = kruskal(n, pq);
+    cout << kruskal(n, total, pq);
 
-    if (save == -1) {
-        cout << -1;
-        return 0;
-    }
-    cout << total - save;
 
 }
 
