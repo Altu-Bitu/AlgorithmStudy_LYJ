@@ -33,29 +33,19 @@ vector<pair<int, int>> vote;
  *
  */
 
-struct compare {
-    bool operator()(const tp &a, const tp &b) {
-
-        if (get<1>(a) != get<1>(b))
-            return get<1>(a) > get<1>(b);//투표수 적은게 앞
-
-        return get<2>(a) > get<2>(b);//더 오래된(작은수)사진이 앞
-    }
-};
-
 
 int leastPick() {//더 적은 인간을 리턴함
 
-    priority_queue<tp, vector<tp>, compare> pq;
+    priority_queue<tp, vector<tp>, greater<>> pq;//더 작은걸 앞으로
 
     for (int i = 1; i <= 100; i++) {
 
         if (vote[i].second == -1) continue;//거론된적도 없는 사람
-        pq.push({i, vote[i].first, vote[i].second});
+        pq.push({vote[i].first, vote[i].second, i});//투표수, 저장된 시간, 후보번호 순서대로 저장한 pq 0,1,2순으로 정렬함
 
     }
 
-    return get<0>(pq.top()); //퇴출되어야 하는 후보
+    return get<2>(pq.top()); //퇴출되어야 하는 후보
 
 }
 
