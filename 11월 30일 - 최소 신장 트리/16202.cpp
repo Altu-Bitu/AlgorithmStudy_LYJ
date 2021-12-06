@@ -5,11 +5,13 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
+#include <queue>
 
 using namespace std;
 
 typedef tuple<int, int, int> tp;
 vector<int> parent;
+deque<tp> q;
 
 
 int findParent(int node) {
@@ -38,32 +40,37 @@ bool unionInput(int x, int y) {
     return true;
 }
 
-pair<int, int> kruskal(int v, vector<tp> &pq) {
+int kruskal(int v) {
 
-    pair<int, int> ans;
-    ans.first = -1;
-    ans.second = 0;
+//    pair<int, int> ans;
+//    ans.first = -1;
+//    ans.second = 0;
 
-    int cnt = 0;
+    int cnt = 0, sum = 0;
+    bool flag = false;//mst가능 여부
 
+    int len = q.size();
 
-    for (int i = 0; i < pq.size(); i++) {
-        int weight = get<0>(pq[i]);
-        int from = get<1>(pq[i]);
-        int to = get<2>(pq[i]);
+    while (len--) {//길이만큼 돌면서
+        int weight = get<0>(q.front());
+        int from = get<1>(q.front());
+        int to = get<2>(q.front());
+        q.pop_front();//작은 순서대로 저장되어 있으므로 앞부터 사용
 
+        q.push_back({weight, from, to});//재활용 (뒤로 넣어주기)
 
         if (unionInput(from, to)) {
             cnt++;
-            ans.second += weight;
-            if (cnt == 1) ans.first = weight;//제일 작은 값이 몇번째 간선이었는지
+            sum += weight;
+            if (cnt == 1) q.pop_back();//첫번째꺼는 재활용 x(뒤에 넣은거 뺴기)
         }
 
-        if (cnt == v - 1) return ans;
+        if (cnt == v - 1) flag = true;//mst제작가능
 
     }
 
-    return make_pair(-1, -1);
+    if (flag) return sum;
+    return -1;//mst제작 불가
 
 }
 
@@ -73,12 +80,10 @@ int main() {
     int n, m, k;
     cin >> n >> m >> k;
 
-    vector<tp> input;
-
     int a, b;
     for (int i = 1; i <= m; i++) {
         cin >> a >> b;
-        input.push_back({i, a, b});//cost가 순서대로라 pq사용하지 않음
+        q.push_back({i, a, b});//i가 작은게 앞으로오게
     }
 
 
@@ -86,10 +91,10 @@ int main() {
 
 
         parent.assign(n + 1, -1);//초기화
-        pair<int, int> res = kruskal(n, input);
+        int res = kruskal(n);
 
         //최소 신장 트리를 만들 수 없을 때 연속으로 0을 출력
-        if (res.first == -1 && res.second == -1) {
+        if (res == -1) {
             cout << 0 << " ";
             while (k--) {
                 cout << 0 << " ";
@@ -99,15 +104,7 @@ int main() {
         }
 
         //MST값 출력
-        cout << res.second << " ";
-
-        //간선하나 제거
-        for (int i = 0; i < input.size(); i++) {
-            int weight = get<0>(input[i]);
-            if (weight == res.first) {
-                input.erase(input.begin() + i);//i번째 원소 삭제
-            }
-        }
+        cout << res << " ";
 
 
     }
