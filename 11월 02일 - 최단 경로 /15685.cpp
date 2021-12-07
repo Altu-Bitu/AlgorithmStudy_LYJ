@@ -15,10 +15,10 @@ int dx[4] = {1, 0, -1, 0};
 
 //크기가 1x1인 정사각형의 네 꼭짓점이 모두 드래곤 커브의 일부인 것이 개수 구하기
 int cntSquare(vector<vector<bool>> &board) {
-    int ans = 0;
+    int ans = 0; //정사각형의 수
     for (int i = 0; i < SIZE - 1; i++) {
         for (int j = 0; j < SIZE - 1; j++) {
-            if (board[i][j] && board[i][j + 1] && board[i + 1][j] && board[i + 1][j + 1])
+            if (board[i][j] && board[i][j + 1] && board[i + 1][j] && board[i + 1][j + 1])//4개의 지점이 true면 1x1의 정사각형
                 ans++;
         }
     }
@@ -27,11 +27,12 @@ int cntSquare(vector<vector<bool>> &board) {
 
 ci makeDragonCurve(vector<vector<bool>> &board, vector<int> &direc, ci point) {
     int size = direc.size(); //그 전 세대까지의 방향 정보
-    for (int i = size - 1; i >= 0; i--) {
-        int new_direc = (direc[i] + 1) % 4; //현재 시작 점의 방향
+
+    for (int i = size - 1; i >= 0; i--) {// 맨 끝 부터 시작해야함 (맨끝이 최신)
+        int new_direc = (direc[i] + 1) % 4; //현재 시작 점의 방향 ( 우(0) -> 상(1) -> 좌(2) -> 하(3) -> 우(0) )
         point = {point.first + dy[new_direc], point.second + dx[new_direc]}; //현재 끝 점
-        board[point.first][point.second] = true;
-        direc.push_back(new_direc);
+        board[point.first][point.second] = true;//방문 표시
+        direc.push_back(new_direc);//바꾼 방향을 저장해둠
     }
     return point;
 }
@@ -46,9 +47,9 @@ ci makeDragonCurve(vector<vector<bool>> &board, vector<int> &direc, ci point) {
  * -> 드래곤 커브 세대의 각 선분 방향 = 전 세대 방향들에서 차례로 끝 점을 기준으로 시계방향으로 이동한 것과 같음
  * -> (우(0) -> 상(1), 상(1) -> 좌(2), 좌(2) -> 하(3), 하(3) -> 우(0)) 로 이동
  * ex) 0세대: 우
- *     1세대: 상
- *     2세대: 좌 상 (1세대 + 0세대의 상, 우에서 각각 시계방향 이동)
- *     3세대: 좌 하 좌 상 (2세대 + 1세대 + 0세대에서 각각 시계방향 이동)
+ *     1세대: 상 ( 우를 시계방향으로 , 우->상 )
+ *     2세대: 좌 상 (1세대 + 0세대의 상, 우에서 각각 시계방향 이동) -> ( 상 -> 좌 , 우 -> 상 )
+ *     3세대: 좌 하 좌 상 (2세대 + 1세대 + 0세대에서 각각 시계방향 이동) (상 -> 좌 , 좌 -> 하 , 상 -> 좌 , 우 -> 상 )
  *
  * 0세대는 이미 방향이 주어지므로 먼저 처리
  * 드래곤 커브는 격자 밖으로 나가지 않음 -> 범위 검사 필요 x
@@ -58,20 +59,25 @@ int main() {
     int n, x, y, d, g;
 
     //입력 & 연산
-    cin >> n;
-    vector<vector<bool>> board(SIZE, vector<bool>(SIZE, false)); //100x100 격자
-    while (n--) {
-        cin >> x >> y >> d >> g;
+    cin >> n; //드래곤 커브의 갯수
+
+    vector<vector<bool>> board(SIZE, vector<bool>(SIZE, false)); //100x100 격자 -> 드레곤 커브가 지나간 격자의 점을 true로 표시해둠
+
+    while (n--) {//각 드래곤 커브 마다
+
+        cin >> x >> y >> d >> g; //시작위치(x, y) , 시작 방향, 세대
+
         vector<int> direc; //세대의 방향 정보 저장 및 보존하는 벡터
+
         ci end_point = {y + dy[d], x + dx[d]}; //0세대 끝점
         board[y][x] = board[end_point.first][end_point.second] = true; //0세대 시작점, 끝점 초기화
         direc.push_back(d); //0세대 방향 삽입
         while (g--) { //각 세대마다 드래곤 커브 만들기
-            end_point = makeDragonCurve(board, direc, end_point);
+            end_point = makeDragonCurve(board, direc, end_point); //해당 세대의 endpoint를 반환한 후 그걸로 재실행 (각 세대의 endpoint 계산됨)
         }
     }
 
     //출력
-    cout << cntSquare(board) << '\n';
+    cout << cntSquare(board) << '\n'; //방문한 지점을 표시한 board를 이용해 정사각형의 수를 구함
     return 0;
 }
