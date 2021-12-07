@@ -11,6 +11,11 @@ typedef pair<int, int> ii;
 
 
 vector<vector<int>> cave;
+const int INF = 1e5 * 1.5; //최대 V-1개의 간선을 지나게 됨
+
+//상 하 좌 우
+int row[4] = {-1, 1, 0, 0};
+int col[4] = {0, 0, -1, 1};
 
 vector<vector<ii>> makeList(int n) {
 
@@ -27,9 +32,6 @@ vector<vector<ii>> makeList(int n) {
      */
     vector<vector<ii>> graph(n * n + 1, vector<ii>(0));
 
-    //상 하 좌 우
-    int row[4] = {-1, 1, 0, 0};
-    int col[4] = {0, 0, -1, 1};
 
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
@@ -59,8 +61,6 @@ vector<vector<ii>> makeList(int n) {
     return graph;
 
 }
-
-const int INF = 1e5 * 1.5; //최대 V-1개의 간선을 지나게 됨
 
 //다익스트라
 // pq는 (거리,정점)이고 graph는 (정점,거리)이다 .. 주의
@@ -131,17 +131,8 @@ int main() {
         //v의 수 : n * n
         //e의 수 : n * ( 4 + (n-1)*2 ) = 2n(n+1) -> n칸짜리 line이 사각형 테두리 4개 + 내부 선들 n-1개씩 세로 1개, 가로 1개
 
-
-
         vector<vector<ii>> graph = makeList(n);
 
-//        for (int i = 1; i <= n * n; i++) {
-//            cout << "[ " << i << " ] : ";
-//            for (int j = 0; j < graph[i].size(); j++) {
-//                cout << graph[i][j].first << "&" << graph[i][j].second << " ";
-//            }
-//            cout << "\n";
-//        }
         //연산
         vector<int> ans = dijkstra(n * n, 1, graph); //정점의 수 n*n , 시작정점 무조건 1, 인접리스트
 
