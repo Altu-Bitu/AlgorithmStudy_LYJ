@@ -37,7 +37,7 @@ int main() {
 
     int n;
 
-    cin >> king >> stone >> n;
+    cin >> king >> stone >> n; //킹의 위치, 돌의 위치, 움직이는 횟수
 
     //first : row , second : col (A = 1)
     ii king_pos = make_pair(king[1] - '0', king[0] - 'A' + 1);
