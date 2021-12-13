@@ -5,13 +5,11 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
-#include <queue>
 
 using namespace std;
 
 typedef tuple<int, int, int> tp;
 vector<int> parent;
-deque<tp> q;
 
 
 int findParent(int node) {
@@ -40,37 +38,36 @@ bool unionInput(int x, int y) {
     return true;
 }
 
-int kruskal(int v) {
+int kruskal(int v, vector<tp> &pq) {
 
-//    pair<int, int> ans;
+    int ans = 0;
 //    ans.first = -1;
 //    ans.second = 0;
 
-    int cnt = 0, sum = 0;
-    bool flag = false;//mst가능 여부
+    int cnt = 0;
 
-    int len = q.size();
 
-    while (len--) {//길이만큼 돌면서
-        int weight = get<0>(q.front());
-        int from = get<1>(q.front());
-        int to = get<2>(q.front());
-        q.pop_front();//작은 순서대로 저장되어 있으므로 앞부터 사용
+    for (int i = 0; i < pq.size(); i++) {
+        int weight = get<0>(pq[i]);
+        int from = get<1>(pq[i]);
+        int to = get<2>(pq[i]);
 
-        q.push_back({weight, from, to});//재활용 (뒤로 넣어주기)
 
         if (unionInput(from, to)) {
             cnt++;
-            sum += weight;
-            if (cnt == 1) q.pop_back();//첫번째꺼는 재활용 x(뒤에 넣은거 뺴기)
+            ans += weight;
+            if (cnt == 1) {
+                pq.erase(pq.begin() + i);//i번째 원소 삭제
+                i--;//하나를 제거해줬으므로 앞으로 떙겨줘야함
+            }
+//            ans.first = weight;//제일 작은 값이 몇번째 간선이었는지
         }
 
-        if (cnt == v - 1) flag = true;//mst제작가능
+        if (cnt == v - 1) return ans;
 
     }
 
-    if (flag) return sum;
-    return -1;//mst제작 불가
+    return -1;
 
 }
 
@@ -80,10 +77,12 @@ int main() {
     int n, m, k;
     cin >> n >> m >> k;
 
+    vector<tp> input;
+
     int a, b;
     for (int i = 1; i <= m; i++) {
         cin >> a >> b;
-        q.push_back({i, a, b});//i가 작은게 앞으로오게
+        input.push_back({i, a, b});//cost가 순서대로라 pq사용하지 않음
     }
 
 
@@ -91,7 +90,7 @@ int main() {
 
 
         parent.assign(n + 1, -1);//초기화
-        int res = kruskal(n);
+        int res = kruskal(n, input);
 
         //최소 신장 트리를 만들 수 없을 때 연속으로 0을 출력
         if (res == -1) {
@@ -106,8 +105,5 @@ int main() {
         //MST값 출력
         cout << res << " ";
 
-
     }
-
-
 }
