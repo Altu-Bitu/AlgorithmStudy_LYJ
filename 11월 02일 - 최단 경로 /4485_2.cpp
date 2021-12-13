@@ -19,7 +19,7 @@ int col[4] = {0, 0, -1, 1};
 
 //다익스트라
 // pq는 (거리,정점)이고 graph는 (정점,거리)이다 .. 주의
-vector<vector<int>> dijkstra(int vertex, int start) {
+int dijkstra(int vertex, int start) {
 
     priority_queue<pair<int, ii>, vector<pair<int, ii>>, greater<>> pq; //작은 순서대로 정렬 -> (start ~ vertex 거리 ,vertex(위치) )
     vector<vector<int>> dist(vertex + 2, vector<int>(vertex + 2, INF));//cave의 각 칸별 최소거리 계산 [n][n]칸이 정답
@@ -27,13 +27,18 @@ vector<vector<int>> dijkstra(int vertex, int start) {
     //시작값 큐에 넣기
     dist[start][start] = cave[start][start]; //start to start : 0
     pq.push({dist[start][start], make_pair(start, start)}); //해당 점까지의 최소 weight, 해당점(x,y)
-
+    int ans;
 
     while (!pq.empty()) {
         int ux = pq.top().second.first; //x좌표
         int uy = pq.top().second.second; //y좌표
         int w = pq.top().first; // start -> u 까지의 weight
         pq.pop();
+
+        if (ux == vertex && uy == vertex) { //제일 오른쪽 아래 칸 도착
+            ans = w;
+            break;
+        }
 
 
         if (w > dist[ux][uy]) continue; //dist[u]가 이미 w보다 작게 설정되었다는 것은 이미 검사된 정점이라는 의미 -> pass
@@ -44,7 +49,7 @@ vector<vector<int>> dijkstra(int vertex, int start) {
             int nx = ux + row[i];
             int ny = uy + col[i];
 
-            if (cave[nx][ny] >= 0) {//범위 내에 있음
+            if (cave[nx][ny] >= 0) {//범위 내에 있음 (범위 아니면 -1임)
 
                 int weight = w + cave[nx][ny];
                 //새로 구한 값이 원래 저장되어 있는 값보다 작으면 갱신
@@ -58,7 +63,7 @@ vector<vector<int>> dijkstra(int vertex, int start) {
 
 
     }
-    return dist;
+    return ans;
 
 
 }
@@ -80,8 +85,8 @@ int main() {
             }
         }
 
-        vector<vector<int>> res = dijkstra(n * n, 1);
-        cout << "Problem " << j << ": " << res[n][n] << "\n"; // 시작정점의 가중치는 무조건 포함되므로 더해서 출력
+        int res = dijkstra(n, 1);
+        cout << "Problem " << j << ": " << res << "\n";
         j++;
 
 
