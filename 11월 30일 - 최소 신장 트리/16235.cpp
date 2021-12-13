@@ -25,11 +25,12 @@ int main() {
     vector<vector<int>> feed(n, vector<int>(n, 0));//겨울 양분
     vector<vector<int>> ground(n, vector<int>(n, 5)); //땅
 
-    deque<tp> tree;// pq는 시간초과 이므로 deque를 이용해 1회만 정렬 (어쩌피 새로 추가되는 나무는 나이가 제일 적다) 
+    deque<tp> tree;// pq는 시간초과 이므로 deque를 이용해 1회만 정렬 (어쩌피 새로 추가되는 나무는 나이가 제일 적다)
 
-//    priority_queue<tp, vector<tp>, greater<>> tree;
+    //    priority_queue<tp, vector<tp>, greater<>> tree;
 
 
+    queue<tp> tree_tmp;
     queue<tp> die;
 
     for (int i = 0; i < n; i++) {
@@ -49,24 +50,18 @@ int main() {
 
     while (k--) {
 
-        int size = tree.size();
         //봄
-
-//        cout << "========봄======\n";
-
-
-        while (size--) {//모든 나무에대해 (어린나무(뒷쪽부터)
+        while (!tree.empty()) {//모든 나무에대해 (어린나무(뒷쪽부터)
             int age = get<0>(tree.back());
             int x = get<1>(tree.back());
             int y = get<2>(tree.back());
             tree.pop_back();
 
-//            cout << "age : " << age << " x : " << x << " y : " << y << "\n";
 
             if (ground[x][y] >= age) {//양분을 먹을 수 있음
                 ground[x][y] -= age;//양분을 먹음
                 age++;//나이가 증가
-                tree.push_front({age, x, y});//어린나무가 뒤쪽으로 가도록
+                tree_tmp.push({age, x, y});//어린나무가 앞쪽에 쌓임(?)
             } else {
                 //양분을 먹을 수 없음 -> 죽기
                 die.push({age, x, y});
@@ -89,20 +84,13 @@ int main() {
         int row[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
         int col[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-        size = tree.size();
+        while (!tree_tmp.empty()) {//나이적은 나무 부터 꺼내짐
+            int age = get<0>(tree_tmp.front());
+            int x = get<1>(tree_tmp.front());
+            int y = get<2>(tree_tmp.front());
+            tree_tmp.pop();
 
-//        cout << "========가을======\n";
-
-        while (size--) {//어떤 순서로 꺼내든 상관없지만 뒤부터 꺼내면 새로 추가된 애가 꺼내질 수 있으므로 앞에서 부터 꺼내기
-            int age = get<0>(tree.front());
-            int x = get<1>(tree.front());
-            int y = get<2>(tree.front());
-            tree.pop_front();
-
-//            cout << "age : " << age << " x : " << x << " y : " << y << "\n";
-
-
-            tree.push_back({age, x, y});//쓴 나무 버리면 안됨
+            tree.push_front({age, x, y});//쓴 나무 버리면 안됨(앞쪽으로 넣어주기)
 
             if (age % 5 == 0) {//나이가 5의배수
                 for (int i = 0; i < 8; i++) {
