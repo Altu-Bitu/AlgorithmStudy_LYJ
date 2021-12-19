@@ -71,7 +71,7 @@ int main() {
 
     vector<int> res = topologicalSort(n, indegree, graph);
 
-    if (res[0] == -1 || res.size() < 6) {
+    if (res[0] == -1 || res.size() < n) {
         cout << 0;
         return 0;
     }
