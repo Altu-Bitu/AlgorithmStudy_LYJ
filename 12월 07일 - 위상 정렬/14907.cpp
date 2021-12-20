@@ -1,96 +1,135 @@
 //
-// 14907번 - 프로젝트 스케줄링
+// 14907번 - 프로젝트 스케쥴링
 //
 
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <math.h>
-#include <algorithm>
 
 using namespace std;
-typedef pair<int, int> ii;
 
-//위상정렬
-vector<int> topologicalSort(int n, vector<int> &indegree, vector<vector<ii>> &graph) {
-    vector<int> result(n + 1, -1);
-    queue<ii> q;
+//위상정렬 + DP
+int topologicalSort(vector<int> &delay, vector<int> &indegree, vector<vector<int>> &graph) {
+    vector<int> result;
+    queue<int> q;
+    vector<int> dp(26, 0); //각 테스크에 걸린 시간 dp
 
-    for (int i = 1; i <= n; i++) {
-        if (!indegree[i]) //진입차수가 0이라면
-            q.push({i, 0});
+    for (int i = 0; i <= 25; i++) {
+        dp[i] = delay[i]; //dp 배열 초기화
+        if (indegree[i] == 0) //진입차수가 0이라면
+            q.push(i);
     }
     while (!q.empty()) {
-        int node = q.front().first;
-        result[node] = q.front().second;
-//        result.push_back({node, q.front().second}); //형재 정점 순서에 삽입
-
+        int node = q.front();
         q.pop();
 
+        result.push_back(node); //현재 정점 순서에 삽입
         for (int i = 0; i < graph[node].size(); i++) {
-            int next_node = graph[node][i].first;
+            int next_node = graph[node][i];
             indegree[next_node]--; //연결된 정점의 진입차수를 1씩 감소
             if (!indegree[next_node]) //연결된 정점의 진입차수가 0이 되었다면
-                q.push({next_node, node});//지금노드, 어디서왔는지
+                q.push(next_node);
+
+            //다음 정점의 최소 시간 계산 -> 이어진 전 정점(현재 정점) 중 가장 긴 시간이 걸리는 프로젝트를 선택
+            dp[next_node] = max(dp[next_node], dp[node] + delay[next_node]);
         }
     }
+
 //
-//    reverse(result.begin(), result.end());
-
-    return result;
+//    for (int i = 0; i < result.size(); i++) {
+//        cout << result[i] << " ";
+//    }
+//
+//    cout << "===========";
+    return dp[result[result.size() - 1]]; //result에서 가장 마지막순서로 진행되는  프로젝트의 dp값
 }
 
-
-vector<int> traceback(int start, vector<int> &route, vector<vector<ii>> &graph) {
-
-    int node = start;
-
-    while (true) {
-
-
-        node = route[node];//다음 행선지
-
-        if (node == route.size() - 1) {
-            break;
-        }//끝 노드에 도달
-
-
-    }
-
-}
 
 int main() {
 
-    int n, m;
-    cin >> n >> m;
+    vector<int> indegree(26, -1); //진입차수
+    vector<vector<int>> graph(26, vector<int>(0)); //그래프
+    vector<int> delay(26, 0); //건설에 걸리는 시간
 
 
-    vector<int> indegree(n + 1, 0); //각 정점의 진입차수
-    vector<vector<ii>> graph(n + 1, vector<ii>()); //인접 리스트 그래프
+    char proj;
+    int time;
+    string str;
 
 
+    int k = 0;
+    while (getline(cin, str)) {
 
-    int a, b, w;
-    for (int i = 0; i < m; i++) {
-        cin >> a >> b >> w;
+//        getline(cin, str);
 
-        indegree[b]++;
-        graph[a].push_back({b, w});
+        proj = str[0];
+        if (indegree[proj - 'A'] == -1) indegree[proj - 'A'] = 0;
+
+//        cout << " length : " << str.length() << "\n";
+//
+//        cout << "proj : " << proj << "\n";
+
+        int start = 2;
+        string tmp = "";
+        for (int i = 2; i <= str.length(); i++) {
+
+            tmp += str[i];
+
+            if (str[i] == ' ') {
+                start = i;//time이 끝난 지점
+                break;
+            }
+        }
+
+        time = stoi(tmp);
+        delay[proj - 'A'] = time;//proj 마감에 소요되는 시간
+
+//        cout << "time : " << time << "\n";
+
+
+//        cout << " graph : ";
+
+        if (start + 1 < str.length()) {
+//            cout << "hie\n";
+            for (int j = start + 1; j < str.length(); j++) {
+//            cout << str[j] << " ";
+                indegree[proj - 'A']++;
+                graph[str[j] - 'A'].push_back(proj - 'A');
+            }
+        }
+
+        k++;
 
     }
 
-    vector<int> res1 = topologicalSort(n, indegree, graph);
 
-
-    for (int i = 0; i < res1.size(); i++) {
-        cout << i << "(" << res1[i] << ") ";
-    }
-
-    cout << "\n";
-
-//    for (int i = 0; i < res1.size(); i++) {
-//        cout << res1[i].second << " ";
+//    cout << "\ndelay\n";
+//    for (int i = 0; i < 26; i++) {
+//
+//        cout << delay[i] << " ";
+//
+//    }
+//
+//    cout << "\nindegree\n";
+//    for (int i = 0; i < 26; i++) {
+//
+//        cout << indegree[i] << " ";
+//
+//    }
+//
+//
+//    cout << "\ngraph\n";
+//    for (int i = 0; i < 26; i++) {
+//
+//        cout << "[ " << i << " ] -> ";
+//        for (int j = 0; j < graph[i].size(); j++) {
+//            cout << graph[i][j] << " -> ";
+//        }
+//        cout << "\n";
+//
 //    }
 
+
+    cout << topologicalSort(delay, indegree, graph);
 
 }
