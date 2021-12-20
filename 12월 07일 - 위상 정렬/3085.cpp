@@ -14,43 +14,52 @@ int row[4] = {0, 0, 1, -1};
 int col[4] = {1, -1, 0, 0};
 
 //해당 방향으로 연속하는 char의 갯수
-int findSubseq(vector<vector<char>> &board, char c, int dir, ii loc) {
+int findSubseq(vector<vector<char>> &board, char c, ii loc) {
 
 
-    cout << "char is " << c << "\n";
-    cout << "this is (" << loc.first << ", " << loc.second << ")\n";
+//    cout << "char is " << c << "\n";
+//    cout << "this is (" << loc.first << ", " << loc.second << ")\n";
 
     int res = 1;
     int cnt;
     for (int i = 0; i < 4; i++) {
+
+//        if (i == 0)cout << "우 탐색\n";
+//        if (i == 1)cout << "좌 탐색\n";
+//        if (i == 2)cout << "하 탐색\n";
+//        if (i == 3)cout << "상 탐색\n";
 
         cnt = 0;
         int nr = loc.first;
         int nc = loc.second;
 
 
-        while (nr != 0 && nr != board.size() - 1 && nc != 0 && nc != board.size() - 1) {
+//        cout << "nr and nc (" << nr << ", " << nc << ")\n";
+
+
+        while (nr > -1 && nr < board.size() && nc > -1 && nc < board.size()) {
 
             nr += row[i];
             nc += col[i];
 
-            cout << nr << " " << nc << "\n";
+            if (nr == -1 || nr == board.size() || nc == -1 || nc == board.size()) break;
+
+//            cout << nr << " " << nc << "\n";
 
             if (board[nr][nc] != c) {//둘이 다르면 끝
-                cout << "둘이 다르다. <종료> cnt : " << cnt + 1 << "\n";
+//                cout << "둘이 다르다. <종료> cnt : " << cnt + 1 << "\n";
 
                 res = max(res, cnt + 1);
 
                 break;
 
-
             }
+
 
             cnt++;//같으면 한글자 추가
 
-
         }
-        cout << "범위 초과. <종료> cnt : " << cnt + 1 << "\n";
+//        cout << "범위 초과. <종료> cnt : " << cnt + 1 << "\n";
         res = max(res, cnt + 1);
     }
 
@@ -84,11 +93,18 @@ int main() {
             char front = board[i][j];
             char back = board[i][j + 1];
 
-            if (front == back) continue;//바꿔도 같은 경우는 스킵
+//            if (front == back) continue;//바꿔도 같은 경우는 스킵
+
+            if (front == back) {
+                ans = max(ans, findSubseq(board, front, {i, j}));
+                continue;
+            }//바꿔도 같은 경우는 스킵
 
             //둘을 바꾸었을 때 연속된 길이
-            ans = max(ans, findSubseq(board, back, 1, {i, j}));//<-로 탐색
-            ans = max(ans, findSubseq(board, front, 0, {i, j + 1}));//->로 탐색
+//            cout << "back\n";
+            ans = max(ans, findSubseq(board, back, {i, j}));//<-로 탐색
+//            cout << "front\n";
+            ans = max(ans, findSubseq(board, front, {i, j + 1}));//->로 탐색
 
         }
     }
@@ -101,11 +117,16 @@ int main() {
             char up = board[j][i];
             char down = board[j + 1][i];
 
-            if (up == down) continue;//바꿔도 같은 경우는 스킵
+            if (up == down) {
+                ans = max(ans, findSubseq(board, up, {j, i}));
+                continue;
+            }//바꿔도 같은 경우는 스킵
 
             //둘을 바꾸었을 때 연속된 길이
-            ans = max(ans, findSubseq(board, up, 2, {j + 1, i}));//
-            ans = max(ans, findSubseq(board, down, 3, {j, i}));//->로 탐색
+//            cout << "up\n";
+            ans = max(ans, findSubseq(board, up, {j + 1, i}));//
+//            cout << "down\n";
+            ans = max(ans, findSubseq(board, down, {j, i}));//
 
         }
     }
