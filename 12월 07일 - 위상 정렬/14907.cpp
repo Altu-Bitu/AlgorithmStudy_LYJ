@@ -6,24 +6,29 @@
 #include <vector>
 #include <queue>
 
+#define SIZE 26
+
 using namespace std;
+
 
 //위상정렬 + DP
 int topologicalSort(vector<int> &delay, vector<int> &indegree, vector<vector<int>> &graph) {
-    vector<int> result;
+//    vector<int> result;
     queue<int> q;
-    vector<int> dp(26, 0); //각 테스크에 걸린 시간 dp
+    vector<int> dp(SIZE, 0); //각 테스크에 걸린 시간 dp
+    int ans = 0;
 
-    for (int i = 0; i <= 25; i++) {
+    for (int i = 0; i < SIZE; i++) {
         dp[i] = delay[i]; //dp 배열 초기화
-        if (indegree[i] == 0) //진입차수가 0이라면
+        if (indegree[i] == 0) //진입차수가 0이라면 && 존재하는 정점
             q.push(i);
     }
     while (!q.empty()) {
         int node = q.front();
         q.pop();
 
-        result.push_back(node); //현재 정점 순서에 삽입
+        ans = max(ans, dp[node]);
+//        result.push_back(node); //현재 정점 순서에 삽입
         for (int i = 0; i < graph[node].size(); i++) {
             int next_node = graph[node][i];
             indegree[next_node]--; //연결된 정점의 진입차수를 1씩 감소
@@ -41,15 +46,15 @@ int topologicalSort(vector<int> &delay, vector<int> &indegree, vector<vector<int
 //    }
 //
 //    cout << "===========";
-    return dp[result[result.size() - 1]]; //result에서 가장 마지막순서로 진행되는  프로젝트의 dp값
+    return ans; //result에서 가장 마지막순서로 진행되는  프로젝트의 dp값
 }
 
 
 int main() {
 
-    vector<int> indegree(26, -1); //진입차수
-    vector<vector<int>> graph(26, vector<int>(0)); //그래프
-    vector<int> delay(26, 0); //건설에 걸리는 시간
+    vector<int> indegree(SIZE, 0); //진입차수
+    vector<vector<int>> graph(SIZE, vector<int>(0)); //그래프
+    vector<int> delay(SIZE, 0); //건설에 걸리는 시간
 
 
     char proj;
@@ -58,12 +63,12 @@ int main() {
 
 
     int k = 0;
+//    while (k != 6) {
     while (getline(cin, str)) {
-
 //        getline(cin, str);
-
+//
         proj = str[0];
-        if (indegree[proj - 'A'] == -1) indegree[proj - 'A'] = 0;
+//        if (indegree[proj - 'A'] == -1) indegree[proj - 'A'] = 0;
 
 //        cout << " length : " << str.length() << "\n";
 //
@@ -71,14 +76,15 @@ int main() {
 
         int start = 2;
         string tmp = "";
-        for (int i = 2; i <= str.length(); i++) {
-
-            tmp += str[i];
+        for (int i = 2; i < str.length(); i++) {
 
             if (str[i] == ' ') {
                 start = i;//time이 끝난 지점
                 break;
             }
+
+            tmp += str[i];
+
         }
 
         time = stoi(tmp);
@@ -104,14 +110,14 @@ int main() {
 
 
 //    cout << "\ndelay\n";
-//    for (int i = 0; i < 26; i++) {
+//    for (int i = 0; i < SIZE; i++) {
 //
 //        cout << delay[i] << " ";
 //
 //    }
 //
 //    cout << "\nindegree\n";
-//    for (int i = 0; i < 26; i++) {
+//    for (int i = 0; i < SIZE; i++) {
 //
 //        cout << indegree[i] << " ";
 //
@@ -119,7 +125,7 @@ int main() {
 //
 //
 //    cout << "\ngraph\n";
-//    for (int i = 0; i < 26; i++) {
+//    for (int i = 0; i < SIZE; i++) {
 //
 //        cout << "[ " << i << " ] -> ";
 //        for (int j = 0; j < graph[i].size(); j++) {
@@ -128,7 +134,6 @@ int main() {
 //        cout << "\n";
 //
 //    }
-
 
     cout << topologicalSort(delay, indegree, graph);
 
