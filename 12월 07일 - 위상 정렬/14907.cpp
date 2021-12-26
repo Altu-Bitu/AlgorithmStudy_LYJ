@@ -96,7 +96,6 @@ int main() {
 //        cout << " graph : ";
 
         if (start + 1 < str.length()) {
-//            cout << "hie\n";
             for (int j = start + 1; j < str.length(); j++) {
 //            cout << str[j] << " ";
                 indegree[proj - 'A']++;
