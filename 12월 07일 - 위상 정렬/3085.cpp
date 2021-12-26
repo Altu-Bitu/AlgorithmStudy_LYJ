@@ -1,137 +1,79 @@
 //
 // 3085번 - 사탕 게임
 //
-
 #include <iostream>
 #include <vector>
-#include <math.h>
+#include <algorithm>
 
 using namespace std;
-typedef pair<int, int> ii;
 
-//우[0],좌[1],하[2],상[3]
-int row[4] = {0, 0, 1, -1};
-int col[4] = {1, -1, 0, 0};
+vector<vector<char>> board;
+//하 우
+int dr[2] = {1, 0};
+int dc[2] = {0, 1};
 
-//해당 방향으로 연속하는 char의 갯수
-int findSubseq(vector<vector<char>> &board, char c, ii loc) {
-
-
-//    cout << "char is " << c << "\n";
-//    cout << "this is (" << loc.first << ", " << loc.second << ")\n";
-
-    int res = 1;
-    int cnt;
-    for (int i = 0; i < 4; i++) {
-
-//        if (i == 0)cout << "우 탐색\n";
-//        if (i == 1)cout << "좌 탐색\n";
-//        if (i == 2)cout << "하 탐색\n";
-//        if (i == 3)cout << "상 탐색\n";
-
-        cnt = 0;
-        int nr = loc.first;
-        int nc = loc.second;
-
-
-//        cout << "nr and nc (" << nr << ", " << nc << ")\n";
-
-
-        while (nr > -1 && nr < board.size() && nc > -1 && nc < board.size()) {
-
-            nr += row[i];
-            nc += col[i];
-
-            if (nr == -1 || nr == board.size() || nc == -1 || nc == board.size()) break;
-
-//            cout << nr << " " << nc << "\n";
-
-            if (board[nr][nc] != c) {//둘이 다르면 끝
-//                cout << "둘이 다르다. <종료> cnt : " << cnt + 1 << "\n";
-
-                res = max(res, cnt + 1);
-
-                break;
-
-            }
-
-
-            cnt++;//같으면 한글자 추가
-
+int cntCandy(int n, int row, int col, int dir) {//하나의 열또는 행에 대해 count
+    int ans = 0, cnt = 0;//답(cnt중 최대), 연속된 사탕의 수 count
+    char cur = ' ';//현재 사탕의 색
+    for (int i = 0; i < n; i++) {//무조건 끝까지 체크해봐야함 -> 그중 최대
+        if (cur == board[row][col]) { //연속된 사탕
+            cnt++;
+            ans = max(ans, cnt);
+        } else { //불연속
+            cnt = 1;
+            cur = board[row][col];
         }
-//        cout << "범위 초과. <종료> cnt : " << cnt + 1 << "\n";
-        res = max(res, cnt + 1);
+        row += dr[dir];
+        col += dc[dir];
     }
-
-    return res;//자기자신
-
-
+    return ans;
 }
 
+int findCandy(int n) {//모든 열과 행에 대해 count
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        ans = max(ans, cntCandy(n, 0, i, 0)); //같은 열에 대해
+        ans = max(ans, cntCandy(n, i, 0, 1)); //같은 행에 대해
+    }
+    return ans;
+}
 
+int switchCandy(int n, int row, int col, char candy) {
+    int ans = 0;
+    for (int i = 0; i < 2; i++) { //오른쪽, 아래에 있는 사탕과 바꿔보기
+        int nr = row + dr[i], nc = col + dc[i];
+        if (nr < n && nc < n && candy != board[nr][nc]) {//범위 내 존재 + 서로 다를 때에만 교환
+            swap(board[row][col], board[nr][nc]);//교환
+            ans = max(ans, findCandy(n));
+            swap(board[row][col], board[nr][nc]);//복구
+        }
+    }
+    return ans;
+}
+
+/**
+ * 입력 범위가 크지 않으므로 바꿀 수 있는 사탕을 모두 바꿔보며 먹을 수 있는 사탕 계산
+ * 오른쪽, 아래에 있는 사탕과만 바꿔도 모든 경우 고려 가능(왼쪽, 위 고려 X)
+ *
+ * 1. 사탕의 색이 다른 사탕만 교환하기
+ * 2. 각 열, 행이 모두 같은 사탕일 때 사탕의 개수가 갱신되지 않도록 주의 (ans 갱신을 line 18~21에서 하는 경우)
+ */
 int main() {
+    int n, max_candy = 0;
 
-    vector<vector<char>> board;
-
-    int size;
-    cin >> size;
-
-    board.assign(size, vector<char>(size, '\0'));
-
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    //입력
+    cin >> n;
+    board.assign(n, vector<char>(n, ' '));//빈칸으로 초기화
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
             cin >> board[i][j];
-        }
+
+    //연산
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            max_candy = max(max_candy, switchCandy(n, i, j, board[i][j]));
     }
 
-    int ans = 1;
-
-    for (int i = 0; i < size; i++) {//마지막 행까지 검사해야함
-        for (int j = 0; j < size - 1; j++) {
-
-            //같은 행 옆 열
-            char front = board[i][j];
-            char back = board[i][j + 1];
-
-//            if (front == back) continue;//바꿔도 같은 경우는 스킵
-
-            if (front == back) {
-                ans = max(ans, findSubseq(board, front, {i, j}));
-                continue;
-            }//바꿔도 같은 경우는 스킵
-
-            //둘을 바꾸었을 때 연속된 길이
-//            cout << "back\n";
-            ans = max(ans, findSubseq(board, back, {i, j}));//<-로 탐색
-//            cout << "front\n";
-            ans = max(ans, findSubseq(board, front, {i, j + 1}));//->로 탐색
-
-        }
-    }
-
-
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size - 1; j++) {
-
-            //같은 행 옆 열
-            char up = board[j][i];
-            char down = board[j + 1][i];
-
-            if (up == down) {
-                ans = max(ans, findSubseq(board, up, {j, i}));
-                continue;
-            }//바꿔도 같은 경우는 스킵
-
-            //둘을 바꾸었을 때 연속된 길이
-//            cout << "up\n";
-            ans = max(ans, findSubseq(board, up, {j + 1, i}));//
-//            cout << "down\n";
-            ans = max(ans, findSubseq(board, down, {j, i}));//
-
-        }
-    }
-
-    cout << ans;
-
-
+    //출력
+    cout << max_candy;
 }
